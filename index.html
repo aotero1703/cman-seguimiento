@@ -27,6 +27,9 @@ body.locked .cover-page{min-height:calc(100svh - 54px)}
 .tl-b b{font-variant-numeric:tabular-nums}
 .tl-t{color:var(--ink-soft)}
 .tl-t b{color:var(--ink);font-weight:600}
+.tl-t small{font-size:.78rem;color:var(--ink-soft)}
+.tl-row.tot{border-top:2px solid var(--ink);border-bottom:none;background:var(--violet-soft);padding-left:8px;padding-right:8px;margin-top:-1px}
+.tl-row.tot .tl-s,.tl-row.tot b{color:var(--ink);font-weight:800}
 @media (max-width:760px){.tl-row{grid-template-columns:44px 1fr;row-gap:4px}.tl-row.h{display:none}.tl-s{grid-column:2}.tl-b,.tl-t{grid-column:1/-1}}
 .cat{display:flex;flex-direction:column}
 .cat button{font:inherit;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);padding:9px 4px;cursor:pointer;display:grid;grid-template-columns:minmax(0,1fr) 64px;gap:2px 12px;color:var(--ink)}
@@ -500,7 +503,7 @@ h1,h2,h3{letter-spacing:-.02em}
   <div class="wrap">
     <div class="ch-head"><span class="ch-n">01</span><h2>La CMAN en 10 años</h2></div>
     <p class="lead" id="tlLead"></p>
-    <div class="panel"><div class="sub-h" style="margin-top:0">Año por año</div><p class="note">Cuántas veces se reunió, cuántos acuerdos tomó y cuál fue el tema con más acuerdos ese año.</p><div class="tl" id="tl"></div></div>
+    <div class="panel"><div class="sub-h" style="margin-top:0">Año por año</div><p class="note">Por cada año: cuántas veces se reunió, cuántos acuerdos tomó y qué tema apareció en más acuerdos. Al final, el total de los 10 años.</p><div class="tl" id="tl"></div></div>
     <div class="two">
       <div class="panel"><div class="sub-h" style="margin-top:0">¿Qué tipo de acuerdos toma?</div><p class="note" id="typesNote">Cada acuerdo tiene un solo tipo. Toca uno para verlos en el buscador.</p><div class="cat" id="types"></div></div>
       <div class="panel"><div class="sub-h" style="margin-top:0">¿Sobre qué temas?</div><p class="note" id="themesNote">Un acuerdo puede tocar varios temas. Toca uno para verlos en el buscador.</p><div class="cat" id="themes"></div></div>
@@ -826,11 +829,11 @@ $('urgList').innerHTML=abiertos.slice(0,3).map(r=>`<a href="#c2"><i style="backg
 /* 01 · diez años */
 (function(){
   const years=[...new Set(D.map(r=>r.y))].sort(),qs=D.filter(r=>r.e==='quorum');
-  $('tlLead').innerHTML=`Entre 2016 y 2026, la CMAN se reunió <b>${sesiones.length} veces</b> y tomó <b>${ACU.length} acuerdos</b>. En ${qs.length} sesiones no hubo quórum.`;
+  $('tlLead').innerHTML=`En total, en los 10 años (2016 a 2026), la CMAN se reunió <b>${sesiones.length} veces</b> y tomó <b>${ACU.length} acuerdos</b>. En ${qs.length} de esas sesiones no hubo quórum.`;
   const Y=years.map(y=>{const rs=ACU.filter(r=>r.y===y),c={};rs.forEach(r=>r.th.forEach(k=>c[k]=(c[k]||0)+1));const top=Object.entries(c).sort((a,b)=>b[1]-a[1])[0];
     return {y,ns:new Set(D.filter(r=>r.y===y).map(r=>r.ses)).size,nq:qs.filter(r=>r.y===y).length,na:rs.length,top};});
   const mx=Math.max(...Y.map(x=>x.na));
-  $('tl').innerHTML='<div class="tl-row h"><span>Año</span><span>Sesiones</span><span>Acuerdos</span><span>Tema con más acuerdos</span></div>'+Y.map(x=>`<div class="tl-row"><span class="tl-y">${x.y}</span><span class="tl-s">${x.ns} ${x.ns===1?'sesión':'sesiones'}${x.nq?`<span class="q">${x.nq} sin quórum</span>`:''}</span><span class="tl-b"><span style="width:${x.na/mx*100}%"></span><b>${x.na}</b></span><span class="tl-t">${x.top?`<b>${THS[x.top[0]]}</b> · ${x.top[1]} de ${x.na}`:'—'}</span></div>`).join('');
+  $('tl').innerHTML='<div class="tl-row h"><span>Año</span><span>Sesiones</span><span>Acuerdos</span><span>Tema que más se repitió ese año</span></div>'+Y.map(x=>`<div class="tl-row"><span class="tl-y">${x.y}</span><span class="tl-s">${x.ns} ${x.ns===1?'sesión':'sesiones'}${x.nq?`<span class="q">${x.nq} sin quórum</span>`:''}</span><span class="tl-b"><span style="width:${x.na/mx*100}%"></span><b>${x.na}</b></span><span class="tl-t">${x.top?`<b>${THS[x.top[0]]}</b><br><small>${x.na===1?`en el único acuerdo de ${x.y}`:`en ${x.top[1]} de los ${x.na} acuerdos de ${x.y}`}</small>`:'<small>Instalación de la comisión</small>'}</span></div>`).join('')+`<div class="tl-row tot"><span class="tl-y">Total</span><span class="tl-s">${sesiones.length} sesiones</span><span class="tl-b"><b>${ACU.length} acuerdos</b></span><span class="tl-t"><small>2016 a 2026</small></span></div>`;
   $('typesNote').textContent=`Cuántos de los ${ACU.length} acuerdos hay de cada tipo. Cada acuerdo tiene un solo tipo; toca uno para verlos en el buscador.`;
   $('themesNote').textContent=`Cuántos de los ${ACU.length} acuerdos tocan cada tema. Un acuerdo puede tocar varios temas, por eso la suma pasa de ${ACU.length}.`;
   const ac={};ACU.forEach(r=>ac[r.ac]=(ac[r.ac]||0)+1);
