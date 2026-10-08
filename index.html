@@ -1,5 +1,11 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="description" content="Seguimiento de los acuerdos de la Comisión Multisectorial de Alto Nivel (CMAN), 2016-2026."><style>body{margin:0}[hidden]{display:none!important}</style></head><body>
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Seguimiento CMAN</title>
+<meta name="description" content="Herramienta de seguimiento de los 189 acuerdos de la CMAN (Ley N.° 30364), 2016–2026: pendientes, fichas por entidad, buscador de antecedentes y descargas en Excel.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%237c3aed'/%3E%3Cstop offset='1' stop-color='%230891b2'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='url(%23g)'/%3E%3Ctext x='32' y='45' font-family='Georgia,serif' font-size='38' font-weight='700' fill='%23fff' text-anchor='middle'%3E%C2%A7%3C/text%3E%3C/svg%3E">
+<meta property="og:type" content="website"><meta property="og:url" content="https://cman-seguimiento.vercel.app/"><meta property="og:title" content="Seguimiento CMAN · ¿Cumple el Estado lo que acuerda?"><meta property="og:description" content="Herramienta de seguimiento de los 189 acuerdos de la CMAN (Ley N.° 30364), 2016–2026: pendientes, fichas por entidad, buscador de antecedentes y descargas en Excel."><meta property="og:image" content="https://cman-seguimiento.vercel.app/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:locale" content="es_PE">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Seguimiento CMAN"><meta name="twitter:description" content="Herramienta de seguimiento de los 189 acuerdos de la CMAN (Ley N.° 30364), 2016–2026: pendientes, fichas por entidad, buscador de antecedentes y descargas en Excel."><meta name="twitter:image" content="https://cman-seguimiento.vercel.app/og.png">
+<style>body{margin:0}[hidden]{display:none!important}</style></head><body>
+
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Caveat:wght@600;700&display=swap">
 <style>
 /* Concepto: carátula de expediente (escritorio + carpeta que se abre) que lleva a capítulos de datos.
@@ -62,6 +68,14 @@ svg text{font-family:var(--f-body)}
 .sheet.s2{transform:translate(9px,-7px) rotate(1deg);background:#F1EFE8}
 .sheet.s3{transform:translate(-7px,-4px) rotate(-.7deg);background:#F6F4EE}
 .sheet h2{font-family:var(--f-display);font-size:2.2rem;line-height:1}
+.urg{margin-top:22px;border-top:1px solid var(--line);padding-top:12px}
+.urg-h{display:block;font-weight:700;font-size:.86rem;margin-bottom:6px}
+.urg a{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:7px 0;border-bottom:1px dashed var(--line);text-decoration:none;color:inherit;font-size:.84rem}
+.urg a:hover{color:var(--violet)}
+.urg a i{width:9px;height:9px;border-radius:50%}
+.urg a b{font-family:var(--f-display);font-weight:700;white-space:nowrap}
+.urg a span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.flag{display:inline-flex;align-items:center;gap:4px;font-size:.72rem;font-weight:700;color:#B45309;background:#FEF3C7;border-radius:999px;padding:3px 9px;white-space:nowrap}
 .sheet .intro{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
 .sheet .go{display:inline-flex;align-items:center;gap:10px;margin-top:18px;background:var(--orange);color:#1B1A18;font-weight:700;font-size:.92rem;padding:12px 20px;border-radius:999px;text-decoration:none}
 .toc{list-style:none;margin:0;padding:0;border-top:1px solid var(--ink)}
@@ -363,6 +377,7 @@ h1,h2,h3{letter-spacing:-.02em}
             <h2 style="margin-top:4px">Todo lo que acordó la CMAN, en un solo lugar</h2>
             <div class="onita" style="margin-top:16px"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="20" fill="#E5E7EB"/><path d="M13 9h11l5 5v17a1 1 0 0 1-1 1H13a1 1 0 0 1-1-1V10a1 1 0 0 1 1-1z" fill="#fff" stroke="#374151" stroke-width="1.4"/><path d="M24 9v5h5" fill="none" stroke="#374151" stroke-width="1.4"/><text x="20.5" y="27.5" text-anchor="middle" font-size="13" font-weight="700" fill="#374151" font-family="Georgia,serif">§</text></svg><p><span>Onita</span>Si tienes poco tiempo, empieza por <b>Lo que más urge</b>. ¿Una duda puntual? <button type="button" data-open-bot style="font:inherit;font-weight:700;color:var(--violet);background:none;border:0;padding:0;cursor:pointer;text-decoration:underline">Pregúntame</button>.</p></div>
             <a class="go" href="#c1">Entrar <span aria-hidden="true">↓</span></a>
+            <div class="urg"><span class="urg-h">Lo más urgente hoy</span><div id="urgList"></div></div>
           </div>
           <ol class="toc" id="toc"></ol>
         </div>
@@ -372,7 +387,7 @@ h1,h2,h3{letter-spacing:-.02em}
             <div class="lid-head"><span>Comisión Multisectorial de Alto Nivel · Ley N.° 30364</span><span>Tomo único</span></div>
             <div class="rotulo">
               <span class="sello">Matriz de<br>acuerdos</span>
-              <span class="num">Expediente N.° 001-2016-CMAN</span>
+              <span class="num">Matriz de acuerdos CMAN · 2016–2026</span>
               <h1>¿Cumple el Estado lo que acuerda?</h1>
               <div class="fields">
                 <div><small>Materia</small><span>Seguimiento de acuerdos</span></div>
@@ -509,6 +524,8 @@ const pill=e=>`<span class="pill" style="--bgc:${EST[e].bg};--fgc:${EST[e].fg}">
 const sem=d=>d>1095?'#B83227':d>365?'#FF7002':'#2F7D4F';
 const kws=(r,max=4)=>[`<span class="chip ac">${r.ac}</span>`,...r.th.filter(k=>THS[k]!==r.ac).slice(0,2).map(k=>`<span class="chip">${THS[k]}</span>`),...(r.nm||[]).slice(0,1).map(n=>`<span class="chip nm">${esc(n.replace(' N.° ',' '))}</span>`)].slice(0,max).join('');
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+D.forEach(r=>{if(/^\W*(el reconocimiento|brindar un reconocimiento)/i.test(r.a))r.ac='Reconocimiento';r.inc=r.av===1&&r.e!=='completado'&&r.e!=='quorum';});
+const flag=r=>r.inc?'<span class="flag" title="La matriz registra 100% de avance, pero el estado no es Cumplido">⚠ Revisar en la matriz</span>':'';
 const sesiones=[...new Set(D.map(r=>r.ses))];
 const ev=D.filter(r=>r.e!=='quorum'&&r.e!=='sin_evaluar');
 const comp=ev.filter(r=>r.e==='completado');
@@ -557,6 +574,9 @@ const navIO=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)docu
   lid.addEventListener('click',open);lid.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open();}});
   if(reduce)open();addEventListener('scroll',()=>{if(scrollY>innerHeight*.5)open();},{passive:true});})();
 
+/* lo más urgente (carátula) */
+$('urgList').innerHTML=abiertos.slice(0,3).map(r=>`<a href="#c2"><i style="background:${sem(r.dias)}"></i><span>Sesión ${r.ses} · ${esc(r.en.join(', ')||'Varias entidades')}</span><b>${fmt(r.dias)} días</b></a>`).join('');
+
 /* 01 · indicadores */
 (function(){
   const pl=ev.filter(r=>r.pl).length,avg=Math.round(abiertos.reduce((s,r)=>s+r.dias,0)/abiertos.length),q=D.filter(r=>r.e==='quorum').length,se=D.filter(r=>r.e==='sin_evaluar').length,obs=ev.filter(r=>r.o).length;
@@ -577,10 +597,10 @@ const navIO=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)docu
     <span class="days"><i style="background:${sem(r.dias)}"></i>${fmt(r.dias)} d</span>
     <span class="w-ses"><b>Sesión ${r.ses}</b><br>${fnum(r.iso)}</span>
     <span class="w-ent">${esc(r.en.join(', ')||'Varias entidades')}</span>
-    <span class="w-kw">${kws(r)}</span>
+    <span class="w-kw">${kws(r)}${flag(r)}</span>
     <span class="w-av"><span><i style="width:${(r.av||0)*100}%"></i></span>${Math.round((r.av||0)*100)}%</span>
     ${pill(r.e)}</summary>
-    <div class="wbody"><div><p>${esc(clean(r.a))}</p>${r.o?`<p class="obs">Obs.: ${esc(clean(r.o))}</p>`:''}</div><button class="btn-s" type="button" data-i="${i}">Copiar para oficio</button></div></details>`).join('');
+    <div class="wbody"><div>${r.inc?'<p class="obs" style="color:#B45309;margin:0 0 6px">La matriz registra 100% de avance pero el estado figura como «'+EST[r.e].l+'». Conviene revisar este registro.</p>':''}<p>${esc(clean(r.a))}</p>${r.o?`<p class="obs">Obs.: ${esc(clean(r.o))}</p>`:''}</div><button class="btn-s" type="button" data-i="${i}">Copiar para oficio</button></div></details>`).join('');
   $('work').querySelectorAll('button[data-i]').forEach(b=>b.addEventListener('click',()=>copy(oficio(abiertos[+b.dataset.i]),b,'Texto copiado: pégalo en tu oficio con Ctrl+V')));
   $('copyWork').dataset.dl=1;$('copyWork').dataset.fallback='Copiar tabla para Excel';
   $('copyWork').addEventListener('click',e=>saveXlsx(`CMAN_pendientes_${fileDate}.xlsx`,[['Pendientes',sheet([COLS,...abiertos.map(toRow)])]],e.currentTarget,abiertos));
