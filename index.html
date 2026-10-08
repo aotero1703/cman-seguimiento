@@ -29,11 +29,12 @@ body.locked .cover-page{min-height:calc(100svh - 54px)}
 .tl-t b{color:var(--ink);font-weight:600}
 @media (max-width:760px){.tl-row{grid-template-columns:44px 1fr;row-gap:4px}.tl-row.h{display:none}.tl-s{grid-column:2}.tl-b,.tl-t{grid-column:1/-1}}
 .cat{display:flex;flex-direction:column}
-.cat button{font:inherit;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);padding:9px 4px;cursor:pointer;display:grid;grid-template-columns:minmax(0,1fr) 44px;gap:2px 12px;color:var(--ink)}
+.cat button{font:inherit;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);padding:9px 4px;cursor:pointer;display:grid;grid-template-columns:minmax(0,1fr) 64px;gap:2px 12px;color:var(--ink)}
 .cat button:hover{background:var(--violet-soft)}
 .cat button b{font-weight:700;font-size:.9rem}
 .cat button small{grid-column:1;font-size:.78rem;color:var(--ink-soft)}
-.cat button em{grid-row:1/3;grid-column:2;align-self:center;text-align:right;font-style:normal;font-family:var(--f-display);font-weight:800;font-size:1.25rem}
+.cat button em{grid-row:1/3;grid-column:2;align-self:center;text-align:right;font-style:normal;font-family:var(--f-display);font-weight:800;font-size:1.25rem;line-height:1}
+.cat button em i{display:block;font-family:var(--f-body);font-style:normal;font-weight:500;font-size:.66rem;color:var(--ink-faint);margin-top:3px}
 .stack{display:flex;height:42px;border-radius:10px;overflow:hidden;margin:4px 0 8px}
 .stack span{display:flex;align-items:center;padding-left:12px;color:#fff;font-weight:700;font-size:.86rem;white-space:nowrap;min-width:6px}
 .stack-l{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:.84rem;color:var(--ink-soft);margin-bottom:20px}
@@ -501,8 +502,8 @@ h1,h2,h3{letter-spacing:-.02em}
     <p class="lead" id="tlLead"></p>
     <div class="panel"><div class="sub-h" style="margin-top:0">Año por año</div><p class="note">Cuántas veces se reunió, cuántos acuerdos tomó y cuál fue el tema con más acuerdos ese año.</p><div class="tl" id="tl"></div></div>
     <div class="two">
-      <div class="panel"><div class="sub-h" style="margin-top:0">¿Qué tipo de acuerdos toma?</div><p class="note">Cada acuerdo tiene un solo tipo. Toca uno para verlos en el buscador.</p><div class="cat" id="types"></div></div>
-      <div class="panel"><div class="sub-h" style="margin-top:0">¿Sobre qué temas?</div><p class="note">Un acuerdo puede tocar varios temas. Toca uno para verlos en el buscador.</p><div class="cat" id="themes"></div></div>
+      <div class="panel"><div class="sub-h" style="margin-top:0">¿Qué tipo de acuerdos toma?</div><p class="note" id="typesNote">Cada acuerdo tiene un solo tipo. Toca uno para verlos en el buscador.</p><div class="cat" id="types"></div></div>
+      <div class="panel"><div class="sub-h" style="margin-top:0">¿Sobre qué temas?</div><p class="note" id="themesNote">Un acuerdo puede tocar varios temas. Toca uno para verlos en el buscador.</p><div class="cat" id="themes"></div></div>
     </div>
     <p class="fine">Tipos y temas: clasificación del Observatorio hecha a partir del texto de cada acuerdo. No forman parte de la matriz oficial.</p>
   </div>
@@ -830,10 +831,12 @@ $('urgList').innerHTML=abiertos.slice(0,3).map(r=>`<a href="#c2"><i style="backg
     return {y,ns:new Set(D.filter(r=>r.y===y).map(r=>r.ses)).size,nq:qs.filter(r=>r.y===y).length,na:rs.length,top};});
   const mx=Math.max(...Y.map(x=>x.na));
   $('tl').innerHTML='<div class="tl-row h"><span>Año</span><span>Sesiones</span><span>Acuerdos</span><span>Tema con más acuerdos</span></div>'+Y.map(x=>`<div class="tl-row"><span class="tl-y">${x.y}</span><span class="tl-s">${x.ns} ${x.ns===1?'sesión':'sesiones'}${x.nq?`<span class="q">${x.nq} sin quórum</span>`:''}</span><span class="tl-b"><span style="width:${x.na/mx*100}%"></span><b>${x.na}</b></span><span class="tl-t">${x.top?`<b>${THS[x.top[0]]}</b> · ${x.top[1]} de ${x.na}`:'—'}</span></div>`).join('');
+  $('typesNote').textContent=`Cuántos de los ${ACU.length} acuerdos hay de cada tipo. Cada acuerdo tiene un solo tipo; toca uno para verlos en el buscador.`;
+  $('themesNote').textContent=`Cuántos de los ${ACU.length} acuerdos tocan cada tema. Un acuerdo puede tocar varios temas, por eso la suma pasa de ${ACU.length}.`;
   const ac={};ACU.forEach(r=>ac[r.ac]=(ac[r.ac]||0)+1);
-  $('types').innerHTML=Object.entries(ac).sort((a,b)=>b[1]-a[1]).map(([k,n])=>`<button type="button" data-ac="${esc(k)}"><b>${esc(k)}</b><small>${esc(AC_TXT[k]||'')}</small><em>${n}</em></button>`).join('');
+  $('types').innerHTML=Object.entries(ac).sort((a,b)=>b[1]-a[1]).map(([k,n])=>`<button type="button" data-ac="${esc(k)}"><b>${esc(k)}</b><small>${esc(AC_TXT[k]||'')}</small><em>${n}<i>acuerdos</i></em></button>`).join('');
   const th={};ACU.forEach(r=>r.th.forEach(k=>th[k]=(th[k]||0)+1));
-  $('themes').innerHTML=Object.entries(th).sort((a,b)=>b[1]-a[1]).map(([k,n])=>`<button type="button" data-th="${k}"><b>${THS[k]}</b><small>${esc(TH_TXT[k])}</small><em>${n}</em></button>`).join('');
+  $('themes').innerHTML=Object.entries(th).sort((a,b)=>b[1]-a[1]).map(([k,n])=>`<button type="button" data-th="${k}"><b>${THS[k]}</b><small>${esc(TH_TXT[k])}</small><em>${n}<i>acuerdos</i></em></button>`).join('');
   $('types').addEventListener('click',e=>{const b=e.target.closest('button');if(b)searchBy({ac:b.dataset.ac});});
   $('themes').addEventListener('click',e=>{const b=e.target.closest('button');if(b)searchBy({th:b.dataset.th});});
 })();
