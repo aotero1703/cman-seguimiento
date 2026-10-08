@@ -8,10 +8,26 @@
 body.locked{overflow:hidden}
 body.locked main>section:not(#coverPage),body.locked footer,body.locked .rail,body.locked .topnav,body.locked .progress,body.locked .bot-fab,body.locked .bot{display:none!important}
 body.locked .cover-page{min-height:calc(100svh - 54px)}
-main>section:not(#coverPage),footer.closing{animation:none}
-body.unlocking main>section:not(#coverPage){animation:reveal .8s ease both}
-@keyframes reveal{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-</style></head><body class="locked">
+/* hojas de expediente: una sección a la vez, se pasan como páginas */
+body.paged main{display:flow-root;background:radial-gradient(ellipse at 50% 0%,#302C26 0%,var(--desk) 70%);min-height:calc(100svh - 54px);padding-bottom:8px}
+body.paged .ch{position:relative;width:min(1200px,calc(100% - 32px));margin:28px auto 36px;padding:44px 0 34px;background:var(--paper);border:none;border-radius:4px 12px 12px 4px;box-shadow:4px 4px 0 -1px #E9E6DF,8px 8px 0 -2px #D9D4C9,0 40px 70px -30px rgba(0,0,0,.9);backface-visibility:hidden}
+body.paged .ch::before{content:'';position:absolute;left:18px;top:50%;width:14px;height:120px;transform:translateY(-50%);background:radial-gradient(circle,#1B1A18 0 5px,transparent 6px) 0 0/14px 60px repeat-y;opacity:.85}
+body.paged .ch>.wrap{padding-left:56px;padding-right:32px}
+@media (max-width:760px){body.paged .ch{width:calc(100% - 16px);margin:14px auto 22px;padding-top:30px}body.paged .ch::before{left:8px;width:10px;height:80px;background-size:10px 40px;background-image:radial-gradient(circle,#1B1A18 0 3.5px,transparent 4.5px)}body.paged .ch>.wrap{padding-left:26px;padding-right:14px}}
+.folio{position:absolute;top:14px;right:22px;font-family:var(--f-mono);font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint)}
+.turn{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:40px;padding-top:18px;border-top:1px dashed var(--line)}
+.turn button{font:inherit;font-weight:700;font-size:.9rem;cursor:pointer;border-radius:999px;padding:11px 18px;display:inline-flex;align-items:center;gap:8px}
+.turn .prev{background:transparent;border:1px solid var(--line);color:var(--ink-soft)}
+.turn .prev:hover{border-color:var(--ink);color:var(--ink)}
+.turn .next{margin-left:auto;border:0;color:#fff;background:linear-gradient(120deg,#f97316,#ec4899);box-shadow:0 8px 18px -10px rgba(236,72,153,.6)}
+.turn .next small{font-weight:500;opacity:.85}
+.topnav a.on,.rail a.on{color:var(--ink);font-weight:700}
+.page-turn{position:fixed!important;left:0;right:0;margin-top:0!important;z-index:55;pointer-events:none;will-change:transform}
+.turn-out{animation:turnOut .85s cubic-bezier(.55,.06,.3,1) forwards}
+.turn-in{animation:turnIn .85s cubic-bezier(.55,.06,.3,1) forwards}
+@keyframes turnOut{0%{transform:perspective(2200px) rotateY(0);filter:brightness(1)}70%{opacity:1}100%{transform:perspective(2200px) rotateY(-100deg);filter:brightness(.65);opacity:0}}
+@keyframes turnIn{0%{transform:perspective(2200px) rotateY(-100deg);filter:brightness(.65);opacity:0}30%{opacity:1}100%{transform:perspective(2200px) rotateY(0);filter:brightness(1);opacity:1}}
+</style></head><body class="locked paged">
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Caveat:wght@600;700&display=swap">
 <style>
@@ -383,7 +399,7 @@ h1,h2,h3{letter-spacing:-.02em}
             <span class="hand" style="font-size:1.5rem;color:var(--violet)">¡Hola, equipo!</span>
             <h2 style="margin-top:4px">Todo lo que acordó la CMAN, en un solo lugar</h2>
             <div class="onita" style="margin-top:16px"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="20" fill="#E5E7EB"/><path d="M13 9h11l5 5v17a1 1 0 0 1-1 1H13a1 1 0 0 1-1-1V10a1 1 0 0 1 1-1z" fill="#fff" stroke="#374151" stroke-width="1.4"/><path d="M24 9v5h5" fill="none" stroke="#374151" stroke-width="1.4"/><text x="20.5" y="27.5" text-anchor="middle" font-size="13" font-weight="700" fill="#374151" font-family="Georgia,serif">§</text></svg><p><span>Onita</span>Si tienes poco tiempo, empieza por <b>Lo que más urge</b>. ¿Una duda puntual? <button type="button" data-open-bot style="font:inherit;font-weight:700;color:var(--violet);background:none;border:0;padding:0;cursor:pointer;text-decoration:underline">Pregúntame</button>.</p></div>
-            <a class="go" href="#c1">Entrar <span aria-hidden="true">↓</span></a>
+            <a class="go" href="#c1">Entrar <span aria-hidden="true">→</span></a>
             <div class="urg"><span class="urg-h">Lo más urgente hoy</span><div id="urgList"></div></div>
           </div>
           <ol class="toc" id="toc"></ol>
@@ -412,7 +428,7 @@ h1,h2,h3{letter-spacing:-.02em}
       </div>
     </div>
   </div>
-  <div class="scroll-hint" aria-hidden="true">baja para ver los datos ↓</div>
+  <div class="scroll-hint" aria-hidden="true">elige un capítulo o pasa la hoja →</div>
 </section>
 
 
@@ -574,8 +590,41 @@ $('toc').innerHTML=chs.map((c,i)=>`<li><a href="#${c.id}"><span class="mono">${S
 $('rail').innerHTML=chs.map((c,i)=>`<a href="#${c.id}" data-c="${c.id}">${String(i+1).padStart(2,'0')}<span>${c.dataset.t}</span></a>`).join('');
 $('topnav').innerHTML=chs.map(c=>`<a href="#${c.id}">${c.dataset.t}</a>`).join('');
 $('c-pct').textContent=P+'%';$('c-open').textContent=abiertos.length;
-addEventListener('scroll',()=>{const h=document.documentElement;$('progress').style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';},{passive:true});
-const navIO=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)document.querySelectorAll('#rail a').forEach(a=>a.classList.toggle('on',a.dataset.c===e.target.id));}),{rootMargin:'-40% 0px -55% 0px'});chs.forEach(c=>navIO.observe(c));
+/* navegación por hojas */
+const pages=[$('coverPage'),...chs];let cur=pages[0],busy=false;
+chs.forEach((c,i)=>{c.hidden=true;const w=c.querySelector('.wrap');
+  const f=document.createElement('span');f.className='folio';f.textContent=`Hoja ${i+1} de ${chs.length}`;c.prepend(f);
+  const t=document.createElement('div');t.className='turn';const nx=chs[i+1];
+  t.innerHTML=`<button class="prev" type="button" data-go="${i?chs[i-1].id:'coverPage'}">← ${i?'Hoja anterior':'Carátula'}</button>`+
+   `<button class="next" type="button" data-go="${nx?nx.id:'coverPage'}">${nx?`<small>Siguiente:</small> ${nx.dataset.t}`:'Volver a la carátula'} →</button>`;
+  w.appendChild(t);});
+const mark=()=>{const i=pages.indexOf(cur);$('progress').style.width=(i/(pages.length-1)*100)+'%';
+  document.querySelectorAll('#rail a,#topnav a').forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+cur.id));
+  history.replaceState(null,'',i?'#'+cur.id:location.pathname+location.search);};
+const top0=()=>window.scrollTo({top:0,behavior:'instant'});
+function goTo(id){const nx=pages.find(p=>p.id===id);if(!nx||nx===cur||busy||document.body.classList.contains('locked'))return;
+  const old=cur,fwd=pages.indexOf(nx)>pages.indexOf(old);cur=nx;mark();
+  const clean=el=>{el.classList.remove('page-turn','turn-out','turn-in');el.style.top='';el.style.transformOrigin='';el.style.maxHeight='';el.style.overflow='';};
+  if(reduce){old.hidden=true;nx.hidden=false;top0();return;}
+  busy=true;
+  if(fwd){const r=old.getBoundingClientRect();old.style.top=r.top+'px';old.style.transformOrigin=`0 ${innerHeight/2-r.top}px`;old.classList.add('page-turn');
+    nx.hidden=false;top0();old.classList.add('turn-out');
+    setTimeout(()=>{old.hidden=true;clean(old);busy=false;},880);}
+  else{top0();const t=nx===pages[0]?54:82;nx.style.top=(nx===pages[0]?54:28+54)+'px';nx.style.maxHeight=`calc(100vh - ${t}px)`;nx.style.overflow='hidden';
+    nx.style.transformOrigin=`0 ${innerHeight/2-t}px`;nx.classList.add('page-turn','turn-in');nx.hidden=false;
+    setTimeout(()=>{old.hidden=true;clean(nx);top0();busy=false;},880);}
+}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(b){e.preventDefault();goTo(b.dataset.go);return;}
+  const a=e.target.closest('a[href^="#"]');if(!a)return;let id=a.getAttribute('href').slice(1);if(id==='inicio')id='coverPage';
+  if(pages.some(p=>p.id===id)){e.preventDefault();goTo(id);}});
+const step=d=>{const i=pages.indexOf(cur)+d;if(i>=0&&i<pages.length)goTo(pages[i].id);};
+document.addEventListener('keydown',e=>{if(e.altKey||e.ctrlKey||e.metaKey||e.target.closest('input,textarea,select,[contenteditable],.bot'))return;
+  if(e.key==='ArrowRight')step(1);else if(e.key==='ArrowLeft')step(-1);});
+let tx=null,ty=0;
+document.addEventListener('touchstart',e=>{if(e.target.closest('.bot,.heat,[style*="overflow"],.qchips,.ent-chips,.bot-s,input')){tx=null;return;}tx=e.touches[0].clientX;ty=e.touches[0].clientY;},{passive:true});
+document.addEventListener('touchend',e=>{if(tx===null)return;const dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;tx=null;
+  if(Math.abs(dx)>90&&Math.abs(dx)>Math.abs(dy)*2)step(dx<0?1:-1);},{passive:true});
+mark();
 (function(){const folder=$('folder'),lid=$('lid');
   const open=()=>{if(folder.classList.contains('open'))return;folder.classList.add('open');lid.setAttribute('aria-hidden','true');lid.tabIndex=-1;$('coverPage').classList.add('opened');setTimeout(()=>{document.body.classList.remove('locked');document.body.classList.add('unlocking');},1100);};
   lid.addEventListener('click',open);lid.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open();}});
