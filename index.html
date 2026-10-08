@@ -4,7 +4,14 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%237c3aed'/%3E%3Cstop offset='1' stop-color='%230891b2'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='url(%23g)'/%3E%3Ctext x='32' y='45' font-family='Georgia,serif' font-size='38' font-weight='700' fill='%23fff' text-anchor='middle'%3E%C2%A7%3C/text%3E%3C/svg%3E">
 <meta property="og:type" content="website"><meta property="og:url" content="https://cman-seguimiento.vercel.app/"><meta property="og:title" content="Seguimiento CMAN · ¿Cumple el Estado lo que acuerda?"><meta property="og:description" content="Herramienta de seguimiento de los 189 acuerdos de la CMAN (Ley N.° 30364), 2016–2026: pendientes, fichas por entidad, buscador de antecedentes y descargas en Excel."><meta property="og:image" content="https://cman-seguimiento.vercel.app/og.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:locale" content="es_PE">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Seguimiento CMAN"><meta name="twitter:description" content="Herramienta de seguimiento de los 189 acuerdos de la CMAN (Ley N.° 30364), 2016–2026: pendientes, fichas por entidad, buscador de antecedentes y descargas en Excel."><meta name="twitter:image" content="https://cman-seguimiento.vercel.app/og.png">
-<style>body{margin:0}[hidden]{display:none!important}</style></head><body>
+<style>body{margin:0}[hidden]{display:none!important}/* carátula como primera hoja: nada más es accesible hasta abrirla */
+body.locked{overflow:hidden}
+body.locked main>section:not(#coverPage),body.locked footer,body.locked .rail,body.locked .topnav,body.locked .progress,body.locked .bot-fab,body.locked .bot{display:none!important}
+body.locked .cover-page{min-height:calc(100svh - 54px)}
+main>section:not(#coverPage),footer.closing{animation:none}
+body.unlocking main>section:not(#coverPage){animation:reveal .8s ease both}
+@keyframes reveal{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+</style></head><body class="locked">
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Caveat:wght@600;700&display=swap">
 <style>
@@ -570,7 +577,7 @@ $('c-pct').textContent=P+'%';$('c-open').textContent=abiertos.length;
 addEventListener('scroll',()=>{const h=document.documentElement;$('progress').style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';},{passive:true});
 const navIO=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)document.querySelectorAll('#rail a').forEach(a=>a.classList.toggle('on',a.dataset.c===e.target.id));}),{rootMargin:'-40% 0px -55% 0px'});chs.forEach(c=>navIO.observe(c));
 (function(){const folder=$('folder'),lid=$('lid');
-  const open=()=>{if(folder.classList.contains('open'))return;folder.classList.add('open');lid.setAttribute('aria-hidden','true');lid.tabIndex=-1;$('coverPage').classList.add('opened');};
+  const open=()=>{if(folder.classList.contains('open'))return;folder.classList.add('open');lid.setAttribute('aria-hidden','true');lid.tabIndex=-1;$('coverPage').classList.add('opened');setTimeout(()=>{document.body.classList.remove('locked');document.body.classList.add('unlocking');},1100);};
   lid.addEventListener('click',open);lid.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open();}});
   if(reduce)open();addEventListener('scroll',()=>{if(scrollY>innerHeight*.5)open();},{passive:true});})();
 
