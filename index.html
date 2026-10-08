@@ -293,7 +293,16 @@ svg text{font-family:var(--f-body)}
 .ent-kpis div{border-top:1px solid var(--ink);padding-top:8px}
 .ent-kpis b{display:block;font-family:var(--f-display);font-weight:800;font-stretch:75%;font-size:2.2rem;line-height:1}
 .ent-kpis span{font-size:.78rem;color:var(--ink-soft)}
-.mini-years{display:grid;grid-template-columns:repeat(11,1fr);gap:4px;align-items:end;height:90px;margin-top:18px;border-bottom:1px solid var(--ink)}
+.mini-years{display:grid;grid-template-columns:repeat(11,1fr);gap:4px;align-items:end;height:130px;margin-top:10px;border-bottom:1px solid var(--ink)}
+.mini-years b{display:block;text-align:center;font-size:.72rem;font-weight:700;color:var(--ink);margin-bottom:3px;font-variant-numeric:tabular-nums}
+.mini-years b.z{color:var(--ink-faint);font-weight:500}
+.ych{margin-top:18px}
+.ych>b{display:block;font-size:.9rem}
+.ych>span{display:block;font-size:.78rem;color:var(--ink-soft);margin-top:2px}
+.ych-l{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.76rem;color:var(--ink-soft);margin-top:6px}
+.ych-l i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.mini-x .ys{display:none}@media (max-width:520px){.mini-x .yl{display:none}.mini-x .ys{display:inline}}
+.ych-x{text-align:center;font-size:.72rem;color:var(--ink-faint);margin-top:2px}
 .mini-years div{display:flex;flex-direction:column;justify-content:flex-end;height:100%}
 .mini-years i{display:block;background:#B9B5AA;border-radius:2px 2px 0 0}
 .mini-years i.o{background:var(--orange)}
@@ -546,7 +555,7 @@ h1,h2,h3{letter-spacing:-.02em}
     <p class="lead">Elige una entidad: verás cuántos acuerdos la nombran, cuántos están cumplidos y cuáles siguen pendientes. Útil para preparar una reunión o un oficio.</p>
     <div class="ent-chips" id="entChips"></div>
     <div class="ent-grid">
-      <div class="panel"><div class="toolbar"><b id="entName" style="font-family:var(--f-display);font-weight:800;font-stretch:75%;font-size:1.7rem;line-height:1"></b><span class="sp"></span><button class="btn-s" type="button" id="copyEnt">Copiar resumen</button><button class="btn-s or" type="button" id="dlEnt">⬇ Excel</button></div><div class="ent-kpis" id="entKpis"></div><div class="cap">Acuerdos por año que nombran a la entidad:<i style="background:#B9B5AA"></i>cumplidos u otros<i style="background:#f97316"></i>pendientes</div><div class="mini-years" id="entYears" style="margin-top:8px"></div><div class="mini-x" id="entX"></div></div>
+      <div class="panel"><div class="toolbar"><b id="entName" style="font-family:var(--f-display);font-weight:800;font-stretch:75%;font-size:1.7rem;line-height:1"></b><span class="sp"></span><button class="btn-s" type="button" id="copyEnt">Copiar resumen</button><button class="btn-s or" type="button" id="dlEnt">⬇ Excel</button></div><div class="ent-kpis" id="entKpis"></div><div class="ych"><b id="entYT">¿En qué años la nombran?</b><span>Cada barra es un año. La altura y el número son la cantidad de acuerdos de ese año que nombran a la entidad.</span><div class="ych-l"><span><i style="background:#f97316"></i>pendientes</span><span><i style="background:#B9B5AA"></i>los demás (cumplidos o aún sin estado)</span></div></div><div class="mini-years" id="entYears"></div><div class="mini-x" id="entX"></div><div class="ych-x">Año de la sesión</div></div>
       <div class="panel"><div class="sub-h">Pendientes</div><div class="erows" id="entOpen"></div><div class="sub-h">Últimos acuerdos</div><div class="erows" id="entLast"></div></div>
     </div>
     <p class="fine">Una entidad «aparece» en un acuerdo cuando el texto la nombra.</p>
@@ -771,14 +780,15 @@ $('urgList').innerHTML=abiertos.slice(0,3).map(r=>`<a href="#c2"><i style="backg
   const ents=Object.keys(map).sort((a,b)=>map[b].length-map[a].length);
   const years=[...new Set(D.map(r=>r.y))].sort();
   $('entChips').innerHTML=ents.map((e,i)=>`<button type="button" data-e="${esc(e)}" class="${i?'':'on'}">${esc(e)}<small>${map[e].length}</small></button>`).join('');
-  $('entX').innerHTML=years.map(y=>`<span>${String(y).slice(2)}</span>`).join('');
+  $('entX').innerHTML=years.map(y=>`<span><span class="yl">${y}</span><span class="ys">'${String(y).slice(2)}</span></span>`).join('');
   let cur=ents[0];
   const row=r=>`<div class="erow"><span class="mono">Sesión ${r.ses}<br>${fnum(r.iso)}</span><span class="k" style="display:block">${esc(resumen(r))}</span>${pill(r.e)}</div>`;
   function show(e){cur=e;const rs=map[e],evs=rs.filter(r=>r.e!=='quorum'&&r.e!=='sin_evaluar'),c=evs.filter(r=>r.e==='completado').length,op=rs.filter(r=>OPEN.includes(r.e)).sort((a,b)=>b.dias-a.dias);
     $('entName').textContent=e;
     $('entKpis').innerHTML=`<div><b>${rs.length}</b><span>acuerdos la nombran</span></div><div><b style="color:${pct(c,evs.length)<90?'var(--orange-ink)':'var(--ok)'}">${pct(c,evs.length)}%</b><span>cumplidos (${c} de ${evs.length} con estado)</span></div><div><b>${op.length}</b><span>pendientes</span></div><div><b style="font-size:1.3rem;line-height:1.2">${op.length?antig(op[0].dias):'—'}</b><span>tiene el pendiente más antiguo</span></div>`;
     const by=years.map(y=>({t:rs.filter(r=>r.y===y).length,o:rs.filter(r=>r.y===y&&OPEN.includes(r.e)).length})),mx=Math.max(1,...by.map(x=>x.t));
-    $('entYears').innerHTML=by.map((x,i)=>`<div title="${years[i]}: ${x.t} acuerdos"><i class="o" style="height:${x.o/mx*100}%"></i><i style="height:${(x.t-x.o)/mx*100}%"></i></div>`).join('');
+    $('entYT').textContent=`¿En qué años se nombra a ${e}?`;
+    $('entYears').innerHTML=by.map((x,i)=>`<div title="${years[i]}: ${x.t} acuerdos (${x.o} pendientes)"><b class="${x.t?'':'z'}">${x.t}</b><i class="o" style="height:${x.o/mx*82}%"></i><i style="height:${(x.t-x.o)/mx*82}%"></i></div>`).join('');
     $('entOpen').innerHTML=op.length?op.map(row).join(''):'<div class="erow"><span class="mono">—</span><span>No tiene acuerdos pendientes</span><span></span></div>';
     $('entLast').innerHTML=rs.slice().sort((a,b)=>b.ses-a.ses).filter(r=>!OPEN.includes(r.e)).slice(0,5).map(row).join('');
     $('entChips').querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.e===e));
