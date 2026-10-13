@@ -610,6 +610,53 @@ body[data-bg="plain"] .bg{background:linear-gradient(180deg,#FBF8F5,#F1EEEC)}
 .xp-open:hover{background:#6E0F2C}
 body.xp-on{overflow:hidden}
 body.xp-on .bot-fab,body.xp-on .rail{display:none!important}
+
+/* hoja 01: cifras clave + pestañas */
+.kstrip{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
+@media (min-width:1000px){.kstrip{grid-template-columns:repeat(6,1fr)}}
+@media (max-width:520px){.kstrip{grid-template-columns:repeat(2,1fr)}}
+.kstrip div{background:#fff;border:1px solid #EFE7E4;border-top:3px solid var(--guinda);border-radius:12px;padding:12px}
+.kstrip b{display:block;font-family:var(--f-display);font-weight:800;font-size:1.7rem;line-height:1;color:var(--guinda)}
+.kstrip span{display:block;font-size:.78rem;font-weight:700;margin-top:5px}
+.kstrip small{display:block;font-size:.7rem;color:var(--ink-faint);margin-top:2px}
+.otabs{display:flex;gap:4px;overflow-x:auto;border-bottom:1.5px solid var(--ink);margin-bottom:18px;scrollbar-width:none}
+.otabs button{font:inherit;flex:none;font-size:.86rem;font-weight:700;border:0;background:none;color:var(--ink-soft);padding:10px 14px;cursor:pointer;border-radius:10px 10px 0 0;border-bottom:3px solid transparent;margin-bottom:-1.5px}
+.otabs button:hover{color:var(--guinda)}
+.otabs button.on{color:var(--guinda);border-bottom-color:var(--guinda);background:var(--rosa-2)}
+.opanel{animation:opIn .45s ease}
+@keyframes opIn{from{opacity:0;transform:translateY(8px)}}
+.que{display:grid;grid-template-columns:1.25fr .75fr;gap:22px}
+@media (max-width:760px){.que{grid-template-columns:1fr}}
+.que-t h3,.oh{font-family:var(--f-news);font-size:1.35rem;margin-bottom:10px}
+.oh small{font-family:var(--f-body);font-size:.74rem;color:var(--ink-faint);font-weight:600;margin-left:6px}
+.que-t p{margin-bottom:12px;color:var(--ink-soft)}.que-t p b{color:var(--ink)}
+.ficha{margin:0;background:var(--rosa-2);border-radius:14px;padding:6px 16px}
+.ficha div{padding:10px 0;border-bottom:1px solid rgba(110,15,44,.12)}.ficha div:last-child{border:0}
+.ficha dt{font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--guinda)}
+.ficha dd{margin:2px 0 0;font-size:.86rem}
+.fin{background:linear-gradient(120deg,var(--guinda-d),var(--ciruela));color:#fff;border-radius:16px;padding:18px 20px;margin-bottom:20px}
+.fin span{font-size:.7rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#F5C6D2}
+.fin p{font-family:var(--f-news);font-size:1.08rem;line-height:1.5;margin-top:6px}.fin b{color:#FDE2E8}
+.funs{list-style:none;counter-reset:f;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media (max-width:640px){.funs{grid-template-columns:1fr}}
+.funs li{counter-increment:f;position:relative;background:#fff;border:1px solid #EFE7E4;border-radius:14px;padding:14px 14px 14px 58px;font-size:.88rem;color:var(--ink-soft)}
+.funs li b{color:var(--ink)}
+.funs li::before{content:counter(f,decimal-leading-zero);position:absolute;left:14px;top:12px;font-family:var(--f-display);font-weight:800;font-size:1.3rem;color:var(--guinda)}
+.flow{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,1fr);gap:0;counter-reset:fl}
+@media (max-width:760px){.flow{grid-template-columns:1fr}}
+.flow li{position:relative;padding:14px 14px 14px 14px;background:#fff;border:1px solid #EFE7E4;margin-right:14px;border-radius:14px}
+.flow li::after{content:'→';position:absolute;right:-14px;top:50%;transform:translate(50%,-50%);color:var(--guinda);font-weight:800}
+.flow li:last-child::after{display:none}.flow li:last-child{margin-right:0}
+@media (max-width:760px){.flow li{margin:0 0 14px}.flow li::after{content:'↓';right:50%;top:auto;bottom:-14px;transform:translate(50%,50%)}}
+.flow b{display:block;font-family:var(--f-display);font-weight:800;font-size:1.5rem;color:var(--guinda);line-height:1}
+.flow strong{display:block;font-size:.86rem;margin-top:4px}
+.flow span{display:block;font-size:.74rem;color:var(--ink-soft);margin-top:3px}
+.home-btn{display:none;align-items:center;justify-content:center;width:36px;height:36px;border-radius:10px;color:var(--guinda);background:var(--rosa-2);text-decoration:none}
+.home-btn svg{width:18px;height:18px}
+@media (max-width:980px){.home-btn{display:inline-flex}}
+body.locked .home-btn{visibility:hidden}
+
+@media (max-width:640px){.bot-fab{font-size:0;gap:0;padding:6px}.bot-fab .onita-ic{width:44px;height:44px}}
 </style></head>
 <body class="locked" data-bg="hero">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="onitaG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6E0F2C"/><stop offset="1" stop-color="#9C4D86"/></linearGradient>
@@ -637,6 +684,7 @@ body.xp-on .bot-fab,body.xp-on .rail{display:none!important}
 <div class="topbar"><div class="wrap" style="position:relative">
   <a class="mark" href="#inicio"><svg><use href="#onita"/></svg>CMAN <span>· Seguimiento de acuerdos</span></a>
   <nav class="topnav" id="topnav"></nav>
+  <a class="home-btn" href="#inicio" aria-label="Volver al inicio"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg></a>
   <span class="progress" id="progress"></span>
 </div></div>
 <nav class="rail" id="rail" aria-label="Hojas"></nav>
@@ -680,22 +728,56 @@ body.xp-on .bot-fab,body.xp-on .rail{display:none!important}
 <!-- 01 · qué es -->
 <section class="ch" id="c0" data-t="¿Qué es la CMAN?" data-teaser="12 entidades">
   <div class="wrap">
-    <header class="news"><span class="kick">El organismo</span><h2><span id="h0">Doce entidades del Estado, <em>una sola mesa</em> contra la violencia</span></h2><p class="deck">La CMAN dirige el sistema nacional creado por la Ley N.° 30364. La preside el Ministerio de la Mujer y Poblaciones Vulnerables.</p><span class="by">Por el <b>Observatorio Nacional</b> · Datos al 14 de setiembre de 2026</span></header>
-    <div class="fx">
-      <div class="pop"><svg viewBox="0 0 34 34"><circle cx="17" cy="17" r="17" fill="#F1E9FE"/><path d="M10 22l5-5 4 3 6-8" fill="none" stroke="#6D28D9" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><b>Dirige el sistema nacional</b><span>Articula a los sectores que previenen, atienden y sancionan la violencia.</span></div>
-      <div class="pop"><svg viewBox="0 0 34 34"><circle cx="17" cy="17" r="17" fill="#ECFAFD"/><path d="M11 10h9l4 4v11H11z" fill="none" stroke="#0891B2" stroke-width="2.2" stroke-linejoin="round"/><path d="M14 18h7M14 21.5h5" stroke="#0891B2" stroke-width="2" stroke-linecap="round"/></svg><b>Define lineamientos</b><span>Para aplicar la Ley N.° 30364.</span></div>
-      <div class="pop"><svg viewBox="0 0 34 34"><circle cx="17" cy="17" r="17" fill="#DDEEDF"/><path d="M11 17.5l4 4 8-9" fill="none" stroke="#2F7D4F" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><b>Evalúa el cumplimiento</b><span>De la ley y de sus propios acuerdos.</span></div>
-      <div class="pop q"><svg viewBox="0 0 34 34"><circle cx="17" cy="17" r="17" fill="#FFEDD5"/><path d="M10 12h14v10H15l-5 4z" fill="none" stroke="#C2410C" stroke-width="2.2" stroke-linejoin="round"/></svg><b><span data-n="69">69</span> sesiones</b><span>y 186 acuerdos entre 2016 y 2026.</span></div>
+    <header class="news"><span class="kick">El organismo</span><h2>Doce entidades del Estado, <em>una sola mesa</em> contra la violencia</h2><p class="deck">La Comisión Multisectorial de Alto Nivel dirige el sistema nacional creado por la Ley N.° 30364 para prevenir, sancionar y erradicar la violencia contra las mujeres y los integrantes del grupo familiar.</p><span class="by">Por el <b>Observatorio Nacional</b> · Datos al 14 de setiembre de 2026</span></header>
+    <div class="kstrip" id="kstrip"></div>
+    <div class="otabs" role="tablist" id="otabs">
+      <button type="button" role="tab" data-o="que" class="on">Qué es</button><button type="button" role="tab" data-o="fun">Objetivos y funciones</button><button type="button" role="tab" data-o="int">Quiénes la integran</button><button type="button" role="tab" data-o="como">Cómo funciona</button><button type="button" role="tab" data-o="art">Articulación</button>
     </div>
-    <div class="panel net-panel" style="margin-top:16px">
-      <div class="panel-h">Mapa de articulación <small>Dos entidades se unen cuando aparecen en un mismo acuerdo. Pasa el cursor o toca una.</small></div>
-      <svg class="net" id="net" viewBox="0 0 860 430" role="img" aria-label="Red de entidades que comparten acuerdos"></svg>
-      <p class="net-info" id="netInfo"></p>
+    <div class="opanel" data-o="que">
+      <div class="que">
+        <div class="que-t">
+          <h3>Un sistema, una comisión que lo dirige</h3>
+          <p>La Ley N.° 30364 crea el <b>Sistema Nacional para la Prevención, Sanción y Erradicación de la Violencia contra las Mujeres y los Integrantes del Grupo Familiar</b>, un sistema funcional que reúne a las entidades del Estado con competencias en la materia.</p>
+          <p>La <b>CMAN</b> es la instancia de más alto nivel de ese sistema: lo dirige, formula sus lineamientos y evalúa su cumplimiento. La integran los titulares o representantes de la alta dirección de las entidades que señala el reglamento.</p>
+          <p>Se reúne en sesiones ordinarias y extraordinarias. En cada sesión adopta <b>acuerdos</b>, cuyo avance hace seguir la Secretaría Técnica. Esta página presenta ese seguimiento.</p>
+        </div>
+        <dl class="ficha">
+          <div><dt>Base legal</dt><dd>Ley N.° 30364 (arts. 33 a 36) y su reglamento, D.S. N.° 009-2016-MIMP</dd></div>
+          <div><dt>Preside</dt><dd>Titular del Ministerio de la Mujer y Poblaciones Vulnerables (MIMP)</dd></div>
+          <div><dt>Secretaría Técnica</dt><dd>Dirección General contra la Violencia de Género del MIMP</dd></div>
+          <div><dt>Instalación</dt><dd id="fInst"></dd></div>
+          <div><dt>Última sesión</dt><dd id="fUlt"></dd></div>
+          <div><dt>Más información</dt><dd><a href="https://www.gob.pe/54348-comision-multisectorial-de-alto-nivel-cman" target="_blank" rel="noopener">gob.pe ↗</a></dd></div>
+        </dl>
+      </div>
     </div>
-    <div class="panel" style="margin-top:16px">
-      <div class="panel-h">¿Quiénes la integran? <small>Toca una entidad para ver sus acuerdos</small></div>
+    <div class="opanel" data-o="fun" hidden>
+      <div class="fin"><span>Finalidad del sistema</span><p>Coordinar, planificar, organizar y ejecutar acciones <b>articuladas, integradas y complementarias</b> para la prevención, atención, protección y reparación de las víctimas, la sanción y reeducación de las personas agresoras, y lograr la <b>erradicación de la violencia</b> contra las mujeres y los integrantes del grupo familiar.</p></div>
+      <h3 class="oh">Funciones de la CMAN <small>Ley N.° 30364, art. 36</small></h3>
+      <ol class="funs">
+        <li class="pop"><b>Aprobar y difundir</b> el protocolo base de actuación conjunta y los lineamientos intersectoriales.</li>
+        <li class="pop"><b>Hacer seguimiento y monitoreo</b> de los planes nacionales sobre violencia contra las mujeres y los integrantes del grupo familiar.</li>
+        <li class="pop"><b>Coordinar con el MEF</b> la dotación de recursos para los sectores comprometidos.</li>
+        <li class="pop"><b>Garantizar la adecuación</b> orgánica y administrativa de las instancias que implementan la ley.</li>
+        <li class="pop"><b>Promover observatorios regionales</b> de la violencia.</li>
+        <li class="pop"><b>Promover instancias</b> regionales, provinciales y distritales de lucha contra la violencia.</li>
+      </ol>
+      <p class="fine">Texto resumido de la Ley N.° 30364. Para el texto completo, consulta la norma vigente.</p>
+    </div>
+    <div class="opanel" data-o="int" hidden>
       <div class="mem" id="mem"></div>
-      <div class="st-note"><span>Preside: <b>MIMP</b></span><span>·</span><span>Secretaría Técnica: <b>Dirección General contra la Violencia de Género (MIMP)</b></span><span>·</span><a href="https://www.gob.pe/54348-comision-multisectorial-de-alto-nivel-cman" target="_blank" rel="noopener">Más información en gob.pe ↗</a></div>
+      <div class="st-note"><span>Preside: <b>MIMP</b></span><span>·</span><span>Secretaría Técnica: <b>DGCVG (MIMP)</b></span><span>·</span><span>Toca una entidad para ver sus acuerdos</span></div>
+    </div>
+    <div class="opanel" data-o="como" hidden>
+      <ol class="flow" id="flow"></ol>
+      <div class="two" style="margin-top:18px"><div class="panel"><div class="panel-h">Sesiones por tipo</div><div class="cat" id="sTipo"></div></div><div class="panel"><div class="panel-h">Sesiones por modalidad</div><div class="cat" id="sMod"></div></div></div>
+    </div>
+    <div class="opanel" data-o="art" hidden>
+      <div class="panel net-panel">
+        <div class="panel-h">Mapa de articulación <small>Dos entidades se unen cuando aparecen en un mismo acuerdo. Pasa el cursor o toca una.</small></div>
+        <svg class="net" id="net" viewBox="0 0 860 430" role="img" aria-label="Red de entidades que comparten acuerdos"></svg>
+        <p class="net-info" id="netInfo"></p>
+      </div>
     </div>
   </div>
 </section>
@@ -793,7 +875,7 @@ body.xp-on .bot-fab,body.xp-on .rail{display:none!important}
 </section>
 <section class="xp" id="xp" hidden aria-label="Expediente digital del acuerdo">
   <header class="xp-h">
-    <div class="xp-top"><button class="xp-btn back" type="button" id="xpBack">← Volver al listado</button><span class="crumb">CMAN <span aria-hidden="true">/</span> Expediente digital <span aria-hidden="true">/</span> <b id="xpCrumb"></b></span><span class="sp"></span><button class="xp-btn" type="button" id="xpLink">Copiar enlace</button><button class="xp-btn" type="button" id="xpDl">⬇ Registro en Excel</button></div>
+    <div class="xp-top"><button class="xp-btn back" type="button" id="xpBack">← Volver al listado</button><button class="xp-btn" type="button" id="xpHome">⌂ Inicio</button><span class="crumb">CMAN <span aria-hidden="true">/</span> Expediente digital <span aria-hidden="true">/</span> <b id="xpCrumb"></b></span><span class="sp"></span><button class="xp-btn" type="button" id="xpLink">Copiar enlace</button><button class="xp-btn" type="button" id="xpDl">⬇ Registro en Excel</button></div>
     <div class="xp-title"><h2 id="xpTitle"></h2></div>
     <div class="xp-meta" id="xpMeta"></div>
   </header>
@@ -895,8 +977,8 @@ const chs=[...document.querySelectorAll('.ch')];
 $('c-pct').textContent=P+'%';$('c-open').textContent=abiertos.length;$('c-n').textContent=ACU.length;
 $('c1').dataset.teaser=P+'%';$('c2').dataset.teaser=abiertos.length;
 $('toc').innerHTML=chs.map((c,i)=>`<li><a href="#${c.id}"><span class="n">${String(i+1).padStart(2,'0')}</span><span>${c.dataset.t}</span><span class="t">${c.dataset.teaser}</span></a></li>`).join('');
-$('rail').innerHTML=chs.map((c,i)=>`<a href="#${c.id}" title="${c.dataset.t}">${String(i+1).padStart(2,'0')}</a>`).join('');
-$('topnav').innerHTML=chs.map(c=>`<a href="#${c.id}">${c.dataset.t}</a>`).join('');
+$('rail').innerHTML='<a href="#inicio" title="Inicio">⌂</a>'+chs.map((c,i)=>`<a href="#${c.id}" title="${c.dataset.t}">${String(i+1).padStart(2,'0')}</a>`).join('');
+$('topnav').innerHTML='<a href="#inicio">Inicio</a>'+chs.map(c=>`<a href="#${c.id}">${c.dataset.t}</a>`).join('');
 $('urgList').innerHTML=abiertos.slice(0,3).map(r=>`<a href="#c2"><span>${esc(resumen(r))}</span><b>desde ${mesAnio(r.iso)}</b></a>`).join('');
 $('sello').addEventListener('click',e=>e.stopPropagation());
 $('sello').addEventListener('keydown',e=>e.stopPropagation());
@@ -911,7 +993,7 @@ chs.forEach((c,i)=>{c.hidden=true;const w=c.querySelector('.wrap');
   w.appendChild(t);});
 const BGOF={coverPage:'hero',c0:'geo',c5:'topo',c1:'topo',c2:'topo',c3:'topo',c4:'plain'};
 const mark=()=>{const i=pages.indexOf(cur);document.body.dataset.bg=BGOF[cur.id]||'plain';$('progress').style.width=(i/(pages.length-1)*100)+'%';
-  document.querySelectorAll('#rail a,#topnav a').forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+cur.id));
+  document.querySelectorAll('#rail a,#topnav a').forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+(i?cur.id:'inicio')));
   history.replaceState(null,'',i?'#'+cur.id:location.pathname+location.search);};
 const top0=()=>window.scrollTo({top:0,behavior:'instant'});
 function goTo(id){const nx=pages.find(p=>p.id===id);if(!nx||nx===cur||busy||document.body.classList.contains('locked'))return;
@@ -946,8 +1028,23 @@ mark();
 /* ===== 01 · qué es la CMAN ===== */
 (function(){
   const cnt=n=>D.filter(r=>r.en.includes(n)).length;
+  const S={};D.forEach(r=>{if(!S[r.ses])S[r.ses]=r;});const ses=Object.values(S).sort((a,b)=>a.ses-b.ses);
+  const first=ses[0],last=ses[ses.length-1];
+  $('fInst').textContent=`${fecha(first.iso)} (Sesión 1)`;$('fUlt').textContent=`${fecha(last.iso)} (Sesión ${last.ses})`;
+  const K=[[MEMBERS.length,'entidades','la integran'],[sesiones.length,'sesiones',`desde ${first.y}`],[ACU.length,'acuerdos','adoptados'],[P,'cumplidos','% con estado','%'],[abiertos.length,'por cumplir','en seguimiento'],[6,'funciones','Ley N.° 30364']];
+  $('kstrip').innerHTML=K.map(([n,l,sm,suf],i)=>`<div class="pop" style="transition-delay:${i*60}ms"><b data-n="${n}" data-s="${suf||''}">${n}${suf||''}</b><span>${l}</span><small>${sm}</small></div>`).join('');
   $('mem').innerHTML=MEMBERS.map(([ab,nm,key,pres],i)=>`<button type="button" class="pop${pres?' pres':''}" style="transition-delay:${i*35}ms" data-e="${esc(key)}">${pres?'<span class="tag">Preside</span>':''}<span class="ab">${ab}</span><span class="nm">${nm}</span><span class="ct">${cnt(key)} acuerdos la nombran →</span></button>`).join('');
   $('mem').addEventListener('click',e=>{const b=e.target.closest('button');if(b){showEnt(b.dataset.e);goTo('c3');}});
+  const nAcSes=(ACU.length/ses.filter(x=>x.g!=='q').length).toFixed(1);
+  $('flow').innerHTML=[[sesiones.length,'Sesiones','ordinarias y extraordinarias'],[ACU.length,'Acuerdos',`${nAcSes} por sesión en promedio`],[ACU.filter(r=>r.en.length).length,'Con entidad nombrada','el texto señala quién'],[ACU.filter(r=>hecho(r)).length,'Con seguimiento','observación registrada'],[comp.length,'Cumplidos',`${P}% de los que tienen estado`]].map(([n,a,b2],i)=>`<li class="pop" style="transition-delay:${i*90}ms"><b>${n}</b><strong>${a}</strong><span>${b2}</span></li>`).join('');
+  const grp=(f)=>{const c={};ses.forEach(x=>{const k=f(x);c[k]=(c[k]||0)+1;});return Object.entries(c).sort((a,b)=>b[1]-a[1]);};
+  const bars=(id,E)=>{const m=E[0][1];$(id).innerHTML=E.map(([k,n])=>`<button type="button" style="cursor:default"><span class="nm">${esc(k)}</span><span class="br grow" style="width:${n/m*100}%"></span><em>${n}<i>sesiones</i></em></button>`).join('');};
+  bars('sTipo',grp(x=>/extra/i.test(x.t)?'Extraordinarias':'Ordinarias'));
+  bars('sMod',grp(x=>/asinc/i.test(x.mod)?'Virtual asincrónica':/virtual/i.test(x.mod)?'Virtual':'Presencial'));
+  $('otabs').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+    $('otabs').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
+    document.querySelectorAll('#c0 .opanel').forEach(p=>p.hidden=p.dataset.o!==b.dataset.o);
+    const c0=$('c0');c0.classList.remove('shown');void c0.offsetWidth;requestAnimationFrame(()=>c0.classList.add('shown'));});
 })();
 
 /* ===== 02 · diez años ===== */
@@ -1327,6 +1424,7 @@ const PERU={"vb":"0 0 640.0 934.3","p":{"AMAZONAS":"M182,354L178,355L176,354L174
   addEventListener('popstate',()=>{const id=parse(location.href);if(id&&byId[id])open(id,false);else hide();});
   document.addEventListener('click',e=>{const b=e.target.closest('[data-xp]');if(b){e.preventDefault();e.stopPropagation();if(xp.hidden)open(b.dataset.xp,true);else{open(b.dataset.xp,false);try{history.replaceState({xp:b.dataset.xp},'',isHttp?`/acuerdos/${b.dataset.xp}/expediente`:`#exp=${b.dataset.xp}`);}catch(_){}}}},true);
   $('xpBack').addEventListener('click',close);
+  $('xpHome').addEventListener('click',()=>{close();setTimeout(()=>goTo('coverPage'),80);});
   document.addEventListener('keydown',e=>{if(!xp.hidden&&e.key==='Escape'&&!document.fullscreenElement)close();});
   $('xpNav').addEventListener('click',e=>{const b=e.target.closest('button');if(b)navGo(b.dataset.k);});
   $('vwThumbs').addEventListener('click',e=>{const b=e.target.closest('.thumb');if(b)show(+b.dataset.i);});
