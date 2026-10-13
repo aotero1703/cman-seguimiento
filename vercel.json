@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/acuerdos/:id/expediente", "destination": "/index.html" }
+  ]
+}
