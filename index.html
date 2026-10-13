@@ -482,6 +482,20 @@ body[data-fondo="e"] .xh>.pmap{display:block;position:relative;grid-column:2;gri
 .ptip.v{opacity:1}.ptip small{display:block;color:#C9CDD1;font-size:.72rem}
 @media (max-width:1060px){body[data-fondo="e"] .xh>.pmap{display:none}body[data-fondo="e"] .xh{display:block}}
 @media (prefers-reduced-motion:reduce){body[data-fondo="e"] .xh-wrap::before{display:none}}
+
+.mh-wrap{position:relative;isolation:isolate;background-color:#fff;background-image:linear-gradient(rgba(74,14,36,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(74,14,36,.07) 1px,transparent 1px);background-size:28px 28px;background-position:-1px -1px;border-bottom:1px solid var(--line)}
+.mh-wrap::before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;background-color:rgba(18,150,150,.07);background-image:linear-gradient(rgba(18,150,150,.55) 1px,transparent 1px),linear-gradient(90deg,rgba(18,150,150,.55) 1px,transparent 1px);background-size:28px 28px;background-position:-1px -1px;-webkit-mask:radial-gradient(180px circle at var(--mx,-999px) var(--my,-999px),#000,transparent 70%);mask:radial-gradient(180px circle at var(--mx,-999px) var(--my,-999px),#000,transparent 70%)}
+.mh-wrap .mh{border-bottom:0;padding-block:56px 44px}
+.mh h1 span{color:var(--maroon)}
+.mh-cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.mh-cta .btn{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border:1px solid var(--ink);border-radius:8px;font-weight:600;color:var(--ink);text-decoration:none;background:#fff}
+.mh-cta .btn.pri{background:var(--maroon);border-color:var(--maroon);color:#fff}
+.mh-cta .btn:hover{border-color:var(--teal)}.mh-cta .btn.pri:hover{background:#3A0A1C}
+.ptip{white-space:normal;width:250px;text-align:left}
+.ptip .ex{display:block;margin-top:5px;padding-top:5px;border-top:1px solid rgba(255,255,255,.18);color:#E9ECEE;font-size:.74rem;line-height:1.35}
+.ptip .go{display:block;margin-top:5px;color:#7FD6D3;font-size:.72rem}
+@media (prefers-reduced-motion:reduce){.mh-wrap::before{display:none}}
+body[data-fondo="e"] .xh h1{font-size:clamp(2rem,4vw,3.5rem)}
 </style></head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="onitaG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0B7F8A"/><stop offset="1" stop-color="#096B74"/></linearGradient>
@@ -500,8 +514,8 @@ body[data-fondo="e"] .xh>.pmap{display:block;position:relative;grid-column:2;gri
 <a class="skip" href="#main">Ir al contenido</a>
 <div class="gov"><div class="wrap"><a href="https://www.gob.pe/mimp" target="_blank" rel="noopener" aria-label="Ministerio de la Mujer y Poblaciones Vulnerables (abre gob.pe)"><img src="/logo-mimp.png" alt="Perú · Ministerio de la Mujer y Poblaciones Vulnerables" width="188" height="36"></a><span>Observatorio Nacional de la Violencia contra las Mujeres y los Integrantes del Grupo Familiar</span></div></div>
 <header class="top"><div class="wrap">
-  <a class="brand" href="#explorar"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#6B1235"/><path d="M9 22V10h3l4 7 4-7h3v12" fill="none" stroke="#41C6C9" stroke-width="2.6" stroke-linejoin="round"/></svg><b>CMAN</b><span>Seguimiento de acuerdos</span></a>
-  <nav class="mods" id="mods" aria-label="Secciones"><a href="#explorar">Explorar</a><a href="#cman">La CMAN</a><a href="#seguimiento">Seguimiento</a><a href="#sesiones">Sesiones</a><a href="#entidades">Entidades</a><a href="#archivo">Archivo</a></nav>
+  <a class="brand" href="#cman"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#6B1235"/><path d="M9 22V10h3l4 7 4-7h3v12" fill="none" stroke="#41C6C9" stroke-width="2.6" stroke-linejoin="round"/></svg><b>CMAN</b><span>Seguimiento de acuerdos</span></a>
+  <nav class="mods" id="mods" aria-label="Secciones"><a href="#cman">La CMAN</a><a href="#explorar">Explorar acuerdos</a><a href="#seguimiento">Seguimiento</a><a href="#sesiones">Sesiones</a><a href="#entidades">Entidades</a><a href="#archivo">Archivo</a></nav>
   <button class="ask" type="button" id="ask" aria-label="Abrir el asistente Onita"><svg aria-hidden="true"><use href="#onita"/></svg>Onita</button>
 </div></header>
 <div class="meta-bar"><div class="wrap"><span>Fuente: <b>Matriz de seguimiento a acuerdos de la CMAN</b>, Secretaría Técnica</span><span>Corte: <b>14 de setiembre de 2026</b> (Sesión 69)</span></div></div>
@@ -510,14 +524,11 @@ body[data-fondo="e"] .xh>.pmap{display:block;position:relative;grid-column:2;gri
 <!-- EXPLORAR -->
 <div class="view" id="v-explorar" data-v="explorar">
   <div class="xh-wrap"><section class="wrap xh"><div class="pmap" id="pmap" hidden></div><div class="xh-g">
-    <div><p class="eyebrow">Comisión Multisectorial de Alto Nivel · Ley N.° 30364</p><h1>¿Cumple el Estado <span>lo que acuerda</span>?</h1></div>
+    <div><p class="eyebrow">Acuerdos de la CMAN · 2016–2026</p><h1>Diez años de acuerdos <span>contra la violencia</span></h1></div>
     <label class="search"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-4-4" stroke="currentColor" stroke-width="2"/></svg><input id="q" type="search" placeholder="Busca tema, entidad, norma o código" aria-label="Buscar acuerdos" autocomplete="off"><kbd aria-hidden="true">/</kbd></label>
   </div>
   <div class="kpis" id="kpis" role="group" aria-label="Indicadores: toca uno para filtrar"></div>
-  <a class="about" href="#cman" aria-label="Conocer la CMAN">
-    <span class="ab-t"><b>¿Qué es la CMAN?</b><span>Dirige el sistema nacional contra la violencia hacia las mujeres y los integrantes del grupo familiar.</span></span>
-    <span class="ab-f"><span><b>MIMP</b>preside</span><span><b>DGCVG</b>secretaría técnica</span><span><b>12</b>entidades</span><span><b>6</b>funciones</span></span>
-    <span class="ab-go">Conocer la CMAN →</span></a></section></div>
+  </section></div>
   <div class="fbar" id="fbar"><div class="wrap"><span class="cnt" id="cnt" aria-live="polite"></span><div class="chips" id="chips"></div><span class="sp"></span><button class="lnk" type="button" id="clear" hidden>Limpiar filtros</button><button class="btn" type="button" id="dlRes">⬇ Excel</button></div></div>
   <section class="wrap board">
     <div>
@@ -576,7 +587,7 @@ body[data-fondo="e"] .xh>.pmap{display:block;position:relative;grid-column:2;gri
 
 <!-- LA CMAN -->
 <div class="view" id="v-cman" data-v="cman" hidden>
-  <section class="wrap mh"><p class="eyebrow">Conocer la CMAN</p><h1>Comisión Multisectorial de Alto Nivel</h1><p>La instancia que dirige el sistema nacional creado por la Ley N.° 30364.</p></section>
+  <div class="mh-wrap"><section class="wrap mh"><p class="eyebrow">Ley N.° 30364 · MIMP</p><h1>Comisión Multisectorial <span>de Alto Nivel</span></h1><p>Dirige el sistema nacional para prevenir, sancionar y erradicar la violencia contra las mujeres y los integrantes del grupo familiar.</p><div class="mh-cta"><a class="btn pri" href="#explorar">Explorar los acuerdos →</a><a class="btn" href="#seguimiento">Ver lo pendiente</a></div></section></div>
   <section class="wrap mb">
     <div class="org-h"><h2>Cómo se organiza</h2><p class="src">Toca una entidad para ver su ficha</p></div>
     <div class="org" id="org"></div>
@@ -703,10 +714,10 @@ function tip(e,html){if(!html){tipEl.hidden=true;return;}tipEl.innerHTML=html;ti
 
 /* ===== rutas ===== */
 const VIEWS=['explorar','seguimiento','sesiones','entidades','archivo','cman'];
-const TITLES={explorar:'Seguimiento de acuerdos de la CMAN',seguimiento:'Seguimiento · CMAN',sesiones:'Sesiones · CMAN',entidades:'Entidades · CMAN',archivo:'Archivo documental · CMAN',cman:'Conocer la CMAN'};
+const TITLES={explorar:'Seguimiento de acuerdos de la CMAN',seguimiento:'Seguimiento · CMAN',sesiones:'Sesiones · CMAN',entidades:'Entidades · CMAN',archivo:'Archivo documental · CMAN',cman:'CMAN · Seguimiento de acuerdos'};
 let curView=null;
 function route(){
-  const h=(location.hash||'').slice(1),v=VIEWS.includes(h)?h:(h.startsWith('k-')?'cman':(h==='acuerdos'||h==='panorama')?'explorar':'explorar');
+  const h=(location.hash||'').slice(1),v=VIEWS.includes(h)?h:(h.startsWith('k-')?'cman':(h==='acuerdos'||h==='panorama')?'explorar':'cman');
   if(v!==curView){curView=v;document.querySelectorAll('.view').forEach(s=>s.hidden=s.dataset.v!==v);
     document.querySelectorAll('#mods a').forEach(a=>a.getAttribute('href')==='#'+v?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'));
     document.title=TITLES[v];window.scrollTo(0,0);}
@@ -989,7 +1000,7 @@ route();
   const el=$('pmap');el.hidden=false;
   el.innerHTML=`<svg viewBox="${PERU.vb}" role="group" aria-label="Mapa: regiones mencionadas en los acuerdos">${Object.entries(PERU.p).map(([k,d])=>`<path d="${d}" data-k="${k}" class="${C[k].length?'on':''}" style="--c:${col(C[k].length)}" tabindex="0" role="button" aria-label="${NM[k]}: ${C[k].length} acuerdos la mencionan"/>`).join('')}</svg><div class="cap"><b>${nOn} regiones</b>aparecen nombradas en los acuerdos. Toca una para ver cuáles.<div class="lg"><i style="background:#DCD6D9"></i>0<i style="background:color-mix(in srgb,var(--maroon) 40%,#fff);margin-left:6px"></i><i style="background:var(--maroon)"></i>${mx}</div></div>`;
   const tip=document.createElement('div');tip.className='ptip';document.body.appendChild(tip);
-  const show=(p,x,y)=>{const k=p.dataset.k,n=C[k].length;tip.innerHTML=`<b>${NM[k]}</b><small>${n?`${n} ${n===1?'acuerdo la menciona':'acuerdos la mencionan'}`:'Ningún acuerdo la menciona'}</small>`;tip.style.left=x+'px';tip.style.top=y+'px';tip.classList.add('v');};
+  const show=(p,x,y)=>{const k=p.dataset.k,L=C[k],n=L.length;let ex='';if(n){const ok=L.filter(r=>r.g==='ok').length,ys=L.map(r=>r.y),y0=Math.min(...ys),y1=Math.max(...ys),r0=L[L.length-1],full=(r0.a+' '+(r0.o||'')).replace(/\s+/g,' '),ix=nz(full).search(new RegExp('\\b'+nz(k)+'\\b')),st=Math.max(0,ix-60),t=(st?'…':'')+full.slice(st,ix+k.length+60).trim()+'…';ex=`<small>${ok} cumplidos · ${y0===y1?y0:y0+'–'+y1}</small><span class="ex">${r0.id}: ${esc(t).replace(new RegExp(NM[k].normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[aeiou]/gi,'.'),'i'),x=>'<b>'+x+'</b>')}</span><span class="go">Clic para ver los ${n}</span>`;}tip.innerHTML=`<b>${NM[k]}</b><small>${n?`${n} ${n===1?'acuerdo la menciona':'acuerdos la mencionan'}`:'Ningún acuerdo la menciona'}</small>${ex}`;tip.style.left=x+'px';tip.style.top=y+'px';tip.classList.add('v');};
   el.addEventListener('pointermove',e=>{const p=e.target.closest('path');if(p)show(p,e.clientX,e.clientY);else tip.classList.remove('v');});
   el.addEventListener('pointerleave',()=>tip.classList.remove('v'));
   el.addEventListener('focusin',e=>{const p=e.target.closest('path');if(p){const b=p.getBoundingClientRect();show(p,b.left+b.width/2,b.top);}});
@@ -998,9 +1009,8 @@ route();
   el.addEventListener('click',e=>pick(e.target.closest('path')));
   el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pick(e.target.closest('path'));}});
   /* cuadrícula que se ilumina bajo el cursor */
-  const w=document.querySelector('.xh-wrap');
-  w.addEventListener('pointermove',e=>{const b=w.getBoundingClientRect();w.style.setProperty('--mx',(e.clientX-b.left)+'px');w.style.setProperty('--my',(e.clientY-b.top)+'px');});
-  w.addEventListener('pointerleave',()=>{w.style.setProperty('--mx','-999px');});
+  document.querySelectorAll('.xh-wrap,.mh-wrap').forEach(w=>{w.addEventListener('pointermove',e=>{const b=w.getBoundingClientRect();w.style.setProperty('--mx',(e.clientX-b.left)+'px');w.style.setProperty('--my',(e.clientY-b.top)+'px');});
+  w.addEventListener('pointerleave',()=>{w.style.setProperty('--mx','-999px');});});
 })();
 
 /* ===== opciones de fondo (solo vista previa) ===== */
