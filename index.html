@@ -37,6 +37,16 @@ a{color:var(--violet)}
 .bg i:nth-child(3){width:30vmax;height:30vmax;left:30vw;bottom:-16vmax;background:#C2410C;opacity:.4;animation:drift3 23s ease-in-out infinite alternate}
 .bg canvas{position:absolute;inset:0;width:100%;height:100%}
 .bg .blobs{position:absolute;inset:0;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+.seed-tip{position:fixed;z-index:70;max-width:260px;background:rgba(17,14,26,.92);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(8px);color:#fff;border-radius:12px;padding:9px 12px;font-size:.78rem;line-height:1.35;pointer-events:none;box-shadow:0 14px 30px -12px rgba(0,0,0,.8)}
+.seed-tip span{display:block;color:#D4CFE0;margin-top:3px}
+.seed-tip em{display:inline-block;margin-top:6px;font-style:normal;font-weight:700;font-size:.7rem;background:rgba(255,255,255,.1);border-radius:999px;padding:2px 8px}
+.seed-key{position:fixed;left:18px;bottom:18px;z-index:2;display:flex;flex-direction:column;gap:3px;font-size:.72rem;color:#CFC9DD;background:rgba(17,14,26,.55);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:10px 12px;pointer-events:none}
+.seed-key b{color:#fff;font-size:.78rem;margin-bottom:2px}
+.seed-key span{display:flex;align-items:center;gap:7px}
+.seed-key i{width:8px;height:8px;border-radius:50%}
+.seed-key small{color:#9C95AE;margin-top:3px}
+@media (max-width:1100px),(hover:none){.seed-key small{display:none}}
+@media (max-width:760px){.seed-key{display:none}}
 @keyframes drift1{to{transform:translate(18vw,14vh) scale(1.15)}}
 @keyframes drift2{to{transform:translate(-22vw,-10vh) scale(.9)}}
 @keyframes drift3{to{transform:translate(-14vw,-18vh) scale(1.2)}}
@@ -432,6 +442,8 @@ main{display:flow-root;min-height:calc(100svh - 54px)}
 <rect x="18.7" y="32" width="1.1" height="5.2" rx=".4" fill="#fff"/><rect x="20.2" y="32" width="1.1" height="5.2" rx=".4" fill="#fff"/>
 <circle cx="27.6" cy="34.6" r="1.5" fill="#FDE68A"/></g></symbol></defs></svg>
 <div class="bg" aria-hidden="true"><i></i><i></i><i></i><canvas id="bgc"></canvas></div>
+<div class="seed-tip" id="seedTip" hidden></div>
+<div class="seed-key" id="seedKey" aria-hidden="true"></div>
 
 <div class="topbar"><div class="wrap" style="position:relative">
   <a class="mark" href="#inicio"><svg><use href="#onita"/></svg>CMAN <span>· Seguimiento de acuerdos</span></a>
@@ -840,44 +852,47 @@ mark();
   render();
 })();
 
-/* ===== fondo interactivo: renglones de un expediente que se resaltan al pasar el cursor; clic = sello ===== */
+/* ===== fondo vivo: cada luz es uno de los acuerdos, con el color de su estado ===== */
 (function(){
-  const cv=$('bgc'),ctx=cv.getContext('2d'),blobs=[...document.querySelectorAll('.bg i')];
-  let W,H,dpr,rows=[],mx=-9999,my=-9999,sx=-9999,sy=-9999,off=0,run=true,stamps=[];
-  const LH=30,R=170;
+  const cv=$('bgc'),ctx=cv.getContext('2d'),tip=$('seedTip'),blobs=[...document.querySelectorAll('.bg i')];
+  const COL={ok:'74,222,128',par:'251,191,36',pen:'248,113,113',new:'96,165,250'};
+  let W,H,dpr,seeds=[],mx=-9999,my=-9999,vx=0,vy=0,run=true,t=0,pulse=null,hover=null;
+  const sprite={};
+  for(const g in COL){const c=document.createElement('canvas'),z=48;c.width=c.height=z;const x=c.getContext('2d'),gr=x.createRadialGradient(z/2,z/2,0,z/2,z/2,z/2);
+    gr.addColorStop(0,`rgba(255,255,255,1)`);gr.addColorStop(.12,`rgba(${COL[g]},1)`);gr.addColorStop(.35,`rgba(${COL[g]},.35)`);gr.addColorStop(1,`rgba(${COL[g]},0)`);x.fillStyle=gr;x.fillRect(0,0,z,z);sprite[g]=c;}
   function size(){dpr=Math.min(2,devicePixelRatio||1);W=innerWidth;H=innerHeight;cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
-    rows=[];const n=Math.ceil(H/LH)+2;
-    for(let i=0;i<n;i++){const segs=[];let x=24+Math.random()*40;const end=W-24-Math.random()*120;
-      while(x<end){const w=14+Math.random()*70;if(x+w>end)break;segs.push([x,w]);x+=w+6+Math.random()*10;}
-      rows.push({segs,par:i%7===0});}}
+    if(!seeds.length)seeds=ACU.map(r=>({r,x:Math.random()*W,y:Math.random()*H,vx:0,vy:0,s:(r.g==='pen'||r.g==='par'?1.6:1)*(.55+Math.random()*1.1),ph:Math.random()*6.28}));}
   size();addEventListener('resize',size);
-  addEventListener('pointermove',e=>{mx=e.clientX;my=e.clientY;},{passive:true});
-  addEventListener('pointerleave',()=>{mx=my=-9999;});
-  addEventListener('pointerdown',e=>{if(e.target.closest('button,a,input,select,summary,.lid,.bot'))return;stamps.push({x:e.clientX,y:e.clientY,t:performance.now(),r:(Math.random()-.5)*.5});if(stamps.length>6)stamps.shift();},{passive:true});
+  const onBg=e=>!e.target.closest('.ch,.folder,.topbar,.bot,.bot-fab,.rail,footer,.cover-top');
+  addEventListener('pointermove',e=>{mx=e.clientX;my=e.clientY;
+    if(!onBg(e)){hover=null;tip.hidden=true;return;}
+    let best=null,bd=18;for(const p of seeds){const d=Math.hypot(p.x-mx,p.y-my);if(d<bd){bd=d;best=p;}}
+    hover=best;if(best){const r=best.r;tip.innerHTML=`<b style="color:rgb(${COL[r.g]})">●</b> Sesión ${r.ses} · ${r.y}<br><span>${esc(resumen(r))}</span><em>${G[r.g].l}</em>`;tip.style.left=Math.min(mx+16,W-280)+'px';tip.style.top=(my+16)+'px';tip.hidden=false;}else tip.hidden=true;},{passive:true});
+  addEventListener('pointerleave',()=>{mx=my=-9999;hover=null;tip.hidden=true;});
+  addEventListener('pointerdown',e=>{if(onBg(e))pulse={x:e.clientX,y:e.clientY,t:performance.now()};},{passive:true});
   addEventListener('scroll',()=>{blobs.forEach((b,i)=>b.style.translate=`0 ${-scrollY*(.05+i*.03)}px`);},{passive:true});
   document.addEventListener('visibilitychange',()=>{run=!document.hidden;if(run)requestAnimationFrame(tick);});
-  function draw(now){
-    ctx.clearRect(0,0,W,H);
-    sx+=(mx-sx)*.18;sy+=(my-sy)*.18;
-    const px=(sx<0?0:sx/W-.5),py=(sy<0?0:sy/H-.5);blobs.forEach((b,i)=>{b.style.marginLeft=`${px*(40+i*30)}px`;b.style.marginTop=`${py*(30+i*20)}px`;});
-    const o=off%LH;
-    rows.forEach((r,i)=>{const y=i*LH-o+12;if(y<-LH||y>H+LH)return;
-      const dy=Math.abs(y-sy);
-      for(const [x,w] of r.segs){
-        const cx=x+w/2,d=Math.hypot(cx-sx,(y-sy)*1.6),k=d<R?1-d/R:0;
-        if(k>0){ctx.fillStyle=`rgba(253,224,71,${k*.55})`;ctx.fillRect(x-3,y-8-k*2,w+6,14);}
-        ctx.fillStyle=k>0?`rgba(255,255,255,${.10+k*.55})`:`rgba(255,255,255,${r.par?.075:.055})`;
-        ctx.fillRect(x,y-3-k*2,w,r.par?4:3);}
-      if(r.par&&dy<R){ctx.fillStyle=`rgba(167,139,250,${(1-dy/R)*.5})`;ctx.fillRect(10,y-6,3,12);}});
-    stamps=stamps.filter(st=>now-st.t<2600);
-    for(const st of stamps){const a=(now-st.t)/2600,sc=a<.12?1.6-a/.12*.6:1,al=a<.12?a/.12:1-(a-.12)/.88;
-      ctx.save();ctx.translate(st.x,st.y);ctx.rotate(st.r);ctx.scale(sc,sc);ctx.globalAlpha=al*.85;
-      ctx.strokeStyle='#F87171';ctx.lineWidth=3;ctx.strokeRect(-62,-26,124,52);ctx.lineWidth=1;ctx.strokeRect(-56,-20,112,40);
-      ctx.fillStyle='#F87171';ctx.font='800 22px Sora, sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('CMAN',0,-3);
-      ctx.font='700 8px Manrope, sans-serif';ctx.fillText('ACUERDO REGISTRADO',0,12);ctx.restore();}
-  }
-  function tick(now){if(!run)return;off+=.12;draw(now);requestAnimationFrame(tick);}
-  if(reduce)draw(performance.now());else requestAnimationFrame(tick);
+  function step(now){t+=1;
+    ctx.globalCompositeOperation='destination-out';ctx.fillStyle='rgba(0,0,0,.5)';ctx.fillRect(0,0,W,H);
+    ctx.globalCompositeOperation='lighter';
+    const pr=pulse?(now-pulse.t)*.6:0;if(pulse&&pr>Math.max(W,H))pulse=null;
+    for(const p of seeds){
+      const a=Math.sin(p.x*.0016+t*.0021)*Math.cos(p.y*.0019-t*.0017)*Math.PI*1.4+t*.0006;
+      p.vx+=Math.cos(a)*.016;p.vy+=Math.sin(a)*.016;
+      const dx=p.x-mx,dy=p.y-my,d=Math.hypot(dx,dy);
+      if(d<240&&d>1){const f=(1-d/240);p.vx+=(-dy/d*1.1-dx/d*.2)*f*.12;p.vy+=(dx/d*1.1-dy/d*.2)*f*.12;}
+      if(pulse){const qx=p.x-pulse.x,qy=p.y-pulse.y,qd=Math.hypot(qx,qy)||1;if(Math.abs(qd-pr)<40){p.vx+=qx/qd*1.6;p.vy+=qy/qd*1.6;}}
+      p.vx*=.955;p.vy*=.955;p.x+=p.vx;p.y+=p.vy;
+      if(p.x<-20)p.x=W+20;else if(p.x>W+20)p.x=-20;if(p.y<-20)p.y=H+20;else if(p.y>H+20)p.y=-20;
+      const tw=.75+.25*Math.sin(t*.03+p.ph),z=(p===hover?40:20)*p.s*tw;
+      ctx.drawImage(sprite[p.r.g],p.x-z/2,p.y-z/2,z,z);}
+    
+    const px=(mx<0?0:mx/W-.5),py=(my<0?0:my/H-.5);vx+=(px-vx)*.05;vy+=(py-vy)*.05;
+    blobs.forEach((b,i)=>{b.style.marginLeft=`${vx*(60+i*40)}px`;b.style.marginTop=`${vy*(40+i*30)}px`;});}
+  function tick(now){if(!run)return;step(now);requestAnimationFrame(tick);}
+  if(reduce){ctx.globalCompositeOperation='lighter';seeds.forEach(p=>ctx.drawImage(sprite[p.r.g],p.x-8,p.y-8,16,16));}
+  else requestAnimationFrame(tick);
+  $('seedKey').innerHTML=`<b>Cada luz es un acuerdo</b>`+['ok','par','pen','new'].map(g=>`<span><i style="background:rgb(${COL[g]});box-shadow:0 0 8px rgb(${COL[g]})"></i>${G[g].l} · ${ACU.filter(r=>r.g===g).length}</span>`).join('')+`<small>Pasa el cursor sobre una luz</small>`;
 })();
 
 /* ===== Onita: responde solo con los datos, sin IA ===== */
