@@ -462,6 +462,26 @@ body[data-fondo="d"] .xh-wrap .about{background:rgba(255,255,255,.06);color:#fff
 body[data-fondo="d"] .xh-wrap .about .ab-t span,body[data-fondo="d"] .xh-wrap .ab-f span{color:var(--on-dark-2)}
 body[data-fondo="d"] .xh-wrap .ab-f b{color:#fff}body[data-fondo="d"] .xh-wrap .ab-go{color:var(--teal-bright)}
 body[data-fondo="d"] .xh-wrap .xh{padding-bottom:30px}
+
+/* fondo E: cuadrícula interactiva + mapa */
+body[data-fondo="e"] .xh-wrap{position:relative;isolation:isolate;background-color:#fff;background-image:linear-gradient(rgba(74,14,36,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(74,14,36,.07) 1px,transparent 1px);background-size:28px 28px;background-position:-1px -1px}
+body[data-fondo="e"] .xh-wrap::before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;background-image:linear-gradient(rgba(18,150,150,.55) 1px,transparent 1px),linear-gradient(90deg,rgba(18,150,150,.55) 1px,transparent 1px);background-color:rgba(18,150,150,.07);background-size:28px 28px;background-position:-1px -1px;-webkit-mask:radial-gradient(180px circle at var(--mx,-999px) var(--my,-999px),#000,transparent 70%);mask:radial-gradient(180px circle at var(--mx,-999px) var(--my,-999px),#000,transparent 70%);opacity:.9;transition:opacity .3s}
+body[data-fondo="e"] .xh{display:grid;grid-template-columns:minmax(0,1fr) 290px;column-gap:32px;align-items:start}body[data-fondo="e"] .xh>*{grid-column:1}
+body[data-fondo="e"] #kpis>*{background-color:rgba(255,255,255,.88)}
+.pmap{display:none}
+body[data-fondo="e"] .xh>.pmap{display:block;position:relative;grid-column:2;grid-row:1/span 4;align-self:center;width:290px;aspect-ratio:640/934}
+.pmap svg{width:100%;height:auto;display:block;overflow:visible}
+.pmap path{stroke:#fff;stroke-width:1.4;cursor:pointer;transition:fill .2s,transform .2s;fill:#DCD6D9}
+.pmap path.on{fill:var(--c)}
+.pmap path:hover,.pmap path:focus{fill:var(--teal);outline:none}
+.pmap path.sel{fill:var(--teal);stroke:var(--ink);stroke-width:2.5}
+.pmap .cap{position:absolute;left:0;bottom:4px;width:120px;font-size:.74rem;line-height:1.35;color:var(--ink-3)}
+.pmap .cap b{display:block;color:var(--ink);font-size:.82rem}
+.pmap .lg{display:flex;align-items:center;gap:4px;margin-top:6px}.pmap .lg i{width:14px;height:8px;border-radius:2px;display:block}
+.ptip{position:fixed;z-index:60;pointer-events:none;background:var(--ink);color:#fff;font-size:.8rem;padding:6px 9px;border-radius:6px;transform:translate(-50%,calc(-100% - 12px));white-space:nowrap;opacity:0;transition:opacity .12s}
+.ptip.v{opacity:1}.ptip small{display:block;color:#C9CDD1;font-size:.72rem}
+@media (max-width:1060px){body[data-fondo="e"] .xh>.pmap{display:none}body[data-fondo="e"] .xh{display:block}}
+@media (prefers-reduced-motion:reduce){body[data-fondo="e"] .xh-wrap::before{display:none}}
 </style></head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="onitaG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0B7F8A"/><stop offset="1" stop-color="#096B74"/></linearGradient>
@@ -489,7 +509,7 @@ body[data-fondo="d"] .xh-wrap .xh{padding-bottom:30px}
 <main id="main">
 <!-- EXPLORAR -->
 <div class="view" id="v-explorar" data-v="explorar">
-  <div class="xh-wrap"><section class="wrap xh"><div class="xh-g">
+  <div class="xh-wrap"><section class="wrap xh"><div class="pmap" id="pmap" hidden></div><div class="xh-g">
     <div><p class="eyebrow">Comisión Multisectorial de Alto Nivel · Ley N.° 30364</p><h1>¿Cumple el Estado <span>lo que acuerda</span>?</h1></div>
     <label class="search"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-4-4" stroke="currentColor" stroke-width="2"/></svg><input id="q" type="search" placeholder="Busca tema, entidad, norma o código" aria-label="Buscar acuerdos" autocomplete="off"><kbd aria-hidden="true">/</kbd></label>
   </div>
@@ -593,7 +613,7 @@ body[data-fondo="d"] .xh-wrap .xh{padding-bottom:30px}
   <form class="bot-f" id="botF"><input id="botI" type="text" autocomplete="off" placeholder="Ej.: ¿qué tiene por cumplir el MINSA?" aria-label="Escribe tu pregunta"><button type="submit">Enviar</button></form>
   <div class="bot-note">Corte 14.09.2026. No brinda asesoría legal.</div>
 </section>
-<div class="bgpick" id="bgpick" hidden><b>Opciones de fondo (solo en la vista previa)</b><div><button type="button" data-f="a">A · Blanco</button><button type="button" data-f="b">B · Cuadrícula</button><button type="button" data-f="c">C · Mapa del Perú</button><button type="button" data-f="d">D · Encabezado granate</button></div></div>
+<div class="bgpick" id="bgpick" hidden><b>Opciones de fondo (solo en la vista previa)</b><div><button type="button" data-f="e">E · Cuadrícula + mapa</button><button type="button" data-f="a">A · Blanco</button><button type="button" data-f="b">B · Cuadrícula</button><button type="button" data-f="c">C · Mapa del Perú</button><button type="button" data-f="d">D · Encabezado granate</button></div></div>
 <div class="tip" id="tip" hidden></div>
 <div class="toast" id="toast" role="status"></div>
 <textarea class="sr-copy" id="srCopy" aria-hidden="true" tabindex="-1"></textarea>
@@ -698,12 +718,12 @@ addEventListener('hashchange',route);addEventListener('popstate',route);
 $('ask').addEventListener('click',()=>$('botFab').click());
 
 /* ===== Explorar: filtros cruzados ===== */
-const F={y:null,g:null,en:null,th:null,q:''};
+const F={y:null,g:null,en:null,th:null,q:'',rg:null};
 const GS=['ok','par','pen','new'];
 const YEARS=[...new Set(ACU.map(r=>r.y))].sort();
 const BASE=ACU;
 const matchG=(r,g)=>g==='open'?OPENG.includes(r.g):r.g===g;
-function pass(r,skip){return (skip==='y'||!F.y||r.y===F.y)&&(skip==='g'||!F.g||matchG(r,F.g))&&(skip==='en'||!F.en||r.en.includes(F.en))&&(skip==='th'||!F.th||r.th.includes(F.th))&&(!F.q||r._s.includes(F.q));}
+function pass(r,skip){return (skip==='y'||!F.y||r.y===F.y)&&(skip==='g'||!F.g||matchG(r,F.g))&&(skip==='en'||!F.en||r.en.includes(F.en))&&(skip==='th'||!F.th||r.th.includes(F.th))&&(!F.q||r._s.includes(F.q))&&(!F.rg||F.rg.ids.has(r.id));}
 ACU.forEach(r=>r._s=norm(r.id+' '+r.a+' '+(r.o||'')+' '+r.en.join(' ')+' '+(r.nm||[]).join(' ')+' '+r.th.map(k=>THS[k]).join(' ')));
 const GL={ok:'Cumplido',par:'Parcialmente cumplido',pen:'Pendiente',new:'Sin estado aún',open:'Por cumplir'};
 function setF(k,v){F[k]=F[k]===v?null:v;limit=25;renderAll();}
@@ -744,12 +764,12 @@ function results(){const so=$('sort').value;rows=BASE.filter(r=>pass(r)).sort(so
   $('res').innerHTML=rows.length?rows.slice(0,limit).map(r=>`<tr data-xp="${r.id}" tabindex="0" class="${DR.cur&&DR.cur.id===r.id?'cur':''}"><td class="c">${r.id}<br>${fnum(r.iso)}</td><td class="t">${hl(resumen(r))}</td><td class="m e">${esc(r.en.join(', ')||'—')}</td><td>${pill(r.g)}</td></tr>`).join(''):'<tr><td colspan="4" class="empty">Ningún acuerdo coincide. Quita algún filtro o prueba con otra palabra.</td></tr>';
   $('more').hidden=rows.length<=limit;$('shown').textContent=rows.length>limit?`Mostrando ${limit} de ${rows.length}`:'';
   $('resSub').textContent=F.q?`Búsqueda: “${$('q').value.trim()}”`:'';}
-function chips(){const L=[];if(F.q)L.push(['q',`“${$('q').value.trim()}”`]);if(F.y)L.push(['y',F.y]);if(F.g)L.push(['g',GL[F.g]]);if(F.en)L.push(['en',F.en]);if(F.th)L.push(['th',THS[F.th]]);
+function chips(){const L=[];if(F.q)L.push(['q',`“${$('q').value.trim()}”`]);if(F.y)L.push(['y',F.y]);if(F.g)L.push(['g',GL[F.g]]);if(F.en)L.push(['en',F.en]);if(F.th)L.push(['th',THS[F.th]]);if(F.rg)L.push(['rg','Región: '+F.rg.n]);document.querySelectorAll('#pmap .sel').forEach(x=>{if(!F.rg||x.dataset.k!==F.rg.k)x.classList.remove('sel');});
   $('chips').innerHTML=L.map(([k,l])=>`<button type="button" data-k="${k}" aria-label="Quitar filtro ${esc(String(l))}">${esc(String(l))} <i>×</i></button>`).join('');
   $('clear').hidden=!L.length;
   $('cnt').innerHTML=`${rows.length} ${rows.length===1?'acuerdo':'acuerdos'}<em>${L.length?'filtrados':'en total'}</em>`;}
 function renderAll(){kpis();vYear();vSt();hbars($('vEn'),ENTS,'en',k=>k);hbars($('vTh'),Object.keys(THS),'th',k=>THS[k]);results();chips();}
-function clearAll(){F.y=F.g=F.en=F.th=null;F.q='';$('q').value='';limit=25;renderAll();}
+function clearAll(){F.y=F.g=F.en=F.th=F.rg=null;F.q='';$('q').value='';limit=25;renderAll();}
 $('chips').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const k=b.dataset.k;if(k==='q'){F.q='';$('q').value='';}else F[k]=null;limit=25;renderAll();});
 $('clear').addEventListener('click',clearAll);
 let qt;$('q').addEventListener('input',e=>{clearTimeout(qt);qt=setTimeout(()=>{F.q=norm(e.target.value.trim());limit=25;renderAll();},90);});
@@ -959,11 +979,35 @@ function onita(i){const r=DR.cur,x=X[r.ix],h=hecho(r),c=cited(r.o),av=r.av==null
 })();
 route();
 
+/* ===== Mapa interactivo de regiones mencionadas ===== */
+(function(){
+  const NM={AMAZONAS:'Amazonas',ANCASH:'Áncash',APURIMAC:'Apurímac',AREQUIPA:'Arequipa',AYACUCHO:'Ayacucho',CAJAMARCA:'Cajamarca',CALLAO:'Callao',CUSCO:'Cusco',HUANCAVELICA:'Huancavelica',HUANUCO:'Huánuco',ICA:'Ica',JUNIN:'Junín','LA LIBERTAD':'La Libertad',LAMBAYEQUE:'Lambayeque',LIMA:'Lima',LORETO:'Loreto','MADRE DE DIOS':'Madre de Dios',MOQUEGUA:'Moquegua',PASCO:'Pasco',PIURA:'Piura',PUNO:'Puno','SAN MARTIN':'San Martín',TACNA:'Tacna',TUMBES:'Tumbes',UCAYALI:'Ucayali'};
+  const nz=x=>String(x||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
+  const C={};Object.keys(PERU.p).forEach(k=>{const re=new RegExp('\\b'+nz(k)+'\\b');C[k]=ACU.filter(r=>re.test(nz(r.a+' '+r.o)));});
+  const mx=Math.max(...Object.values(C).map(l=>l.length)),col=n=>n?`color-mix(in srgb,var(--maroon) ${Math.round(35+65*n/mx)}%,#fff)`:'';
+  const nOn=Object.values(C).filter(l=>l.length).length;
+  const el=$('pmap');el.hidden=false;
+  el.innerHTML=`<svg viewBox="${PERU.vb}" role="group" aria-label="Mapa: regiones mencionadas en los acuerdos">${Object.entries(PERU.p).map(([k,d])=>`<path d="${d}" data-k="${k}" class="${C[k].length?'on':''}" style="--c:${col(C[k].length)}" tabindex="0" role="button" aria-label="${NM[k]}: ${C[k].length} acuerdos la mencionan"/>`).join('')}</svg><div class="cap"><b>${nOn} regiones</b>aparecen nombradas en los acuerdos. Toca una para ver cuáles.<div class="lg"><i style="background:#DCD6D9"></i>0<i style="background:color-mix(in srgb,var(--maroon) 40%,#fff);margin-left:6px"></i><i style="background:var(--maroon)"></i>${mx}</div></div>`;
+  const tip=document.createElement('div');tip.className='ptip';document.body.appendChild(tip);
+  const show=(p,x,y)=>{const k=p.dataset.k,n=C[k].length;tip.innerHTML=`<b>${NM[k]}</b><small>${n?`${n} ${n===1?'acuerdo la menciona':'acuerdos la mencionan'}`:'Ningún acuerdo la menciona'}</small>`;tip.style.left=x+'px';tip.style.top=y+'px';tip.classList.add('v');};
+  el.addEventListener('pointermove',e=>{const p=e.target.closest('path');if(p)show(p,e.clientX,e.clientY);else tip.classList.remove('v');});
+  el.addEventListener('pointerleave',()=>tip.classList.remove('v'));
+  el.addEventListener('focusin',e=>{const p=e.target.closest('path');if(p){const b=p.getBoundingClientRect();show(p,b.left+b.width/2,b.top);}});
+  el.addEventListener('focusout',()=>tip.classList.remove('v'));
+  const pick=p=>{if(!p)return;const k=p.dataset.k;if(!C[k].length)return;el.querySelectorAll('.sel').forEach(x=>x.classList.remove('sel'));if(F.rg&&F.rg.k===k){F.rg=null;limit=25;renderAll();return;}p.classList.add('sel');F.rg={k,n:NM[k],ids:new Set(C[k].map(r=>r.id))};limit=25;renderAll();setTimeout(()=>document.getElementById('resultados').scrollIntoView({behavior:reduce?'auto':'smooth'}),150);};
+  el.addEventListener('click',e=>pick(e.target.closest('path')));
+  el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pick(e.target.closest('path'));}});
+  /* cuadrícula que se ilumina bajo el cursor */
+  const w=document.querySelector('.xh-wrap');
+  w.addEventListener('pointermove',e=>{const b=w.getBoundingClientRect();w.style.setProperty('--mx',(e.clientX-b.left)+'px');w.style.setProperty('--my',(e.clientY-b.top)+'px');});
+  w.addEventListener('pointerleave',()=>{w.style.setProperty('--mx','-999px');});
+})();
+
 /* ===== opciones de fondo (solo vista previa) ===== */
 (function(){
-  if(location.hostname==='cman-seguimiento.vercel.app')return;
-  const bp=$('bgpick');bp.hidden=false;let f='a';try{f=localStorage.getItem('cman-fondo')||'a';}catch(e){}
-  const set=v=>{f=v;document.body.dataset.fondo=v;bp.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.f===v));try{localStorage.setItem('cman-fondo',v);}catch(e){}};
+  if(location.hostname==='cman-seguimiento.vercel.app'){document.body.dataset.fondo='e';return;}
+  const bp=$('bgpick');bp.hidden=false;let f='e';try{f=localStorage.getItem('cman-fondo2')||'e';}catch(e){}
+  const set=v=>{f=v;document.body.dataset.fondo=v;bp.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.f===v));try{localStorage.setItem('cman-fondo2',v);}catch(e){}};
   bp.addEventListener('click',e=>{const b=e.target.closest('[data-f]');if(b)set(b.dataset.f);});set(f);
   document.body.style.setProperty('--peru',`url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='${PERU.vb}'><g fill='%231D2125' stroke='%23fff' stroke-width='1.2'>${Object.values(PERU.p).map(d=>`<path d='${d}'/>`).join('')}</g></svg>`).replace(/%2523/g,'%23')}")`);
 })();
