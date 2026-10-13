@@ -624,7 +624,7 @@ body[data-fondo="e"] .xh h1{font-size:clamp(2rem,4vw,3.5rem)}
   <form class="bot-f" id="botF"><input id="botI" type="text" autocomplete="off" placeholder="Ej.: ¿qué tiene por cumplir el MINSA?" aria-label="Escribe tu pregunta"><button type="submit">Enviar</button></form>
   <div class="bot-note">Corte 14.09.2026. No brinda asesoría legal.</div>
 </section>
-<div class="bgpick" id="bgpick" hidden><b>Opciones de fondo (solo en la vista previa)</b><div><button type="button" data-f="e">E · Cuadrícula + mapa</button><button type="button" data-f="a">A · Blanco</button><button type="button" data-f="b">B · Cuadrícula</button><button type="button" data-f="c">C · Mapa del Perú</button><button type="button" data-f="d">D · Encabezado granate</button></div></div>
+
 <div class="tip" id="tip" hidden></div>
 <div class="toast" id="toast" role="status"></div>
 <textarea class="sr-copy" id="srCopy" aria-hidden="true" tabindex="-1"></textarea>
@@ -1013,14 +1013,9 @@ route();
   w.addEventListener('pointerleave',()=>{w.style.setProperty('--mx','-999px');});});
 })();
 
-/* ===== opciones de fondo (solo vista previa) ===== */
-(function(){
-  if(location.hostname==='cman-seguimiento.vercel.app'){document.body.dataset.fondo='e';return;}
-  const bp=$('bgpick');bp.hidden=false;let f='e';try{f=localStorage.getItem('cman-fondo2')||'e';}catch(e){}
-  const set=v=>{f=v;document.body.dataset.fondo=v;bp.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.f===v));try{localStorage.setItem('cman-fondo2',v);}catch(e){}};
-  bp.addEventListener('click',e=>{const b=e.target.closest('[data-f]');if(b)set(b.dataset.f);});set(f);
-  document.body.style.setProperty('--peru',`url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='${PERU.vb}'><g fill='%231D2125' stroke='%23fff' stroke-width='1.2'>${Object.values(PERU.p).map(d=>`<path d='${d}'/>`).join('')}</g></svg>`).replace(/%2523/g,'%23')}")`);
-})();
+/* ===== fondo: cuadrícula + mapa ===== */
+document.body.dataset.fondo='e';
+
 
 /* ===== Onita: responde solo con los datos, sin IA ===== */
 (function(){
